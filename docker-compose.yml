@@ -1,0 +1,33 @@
+version: '3'
+services:
+    client:
+        build: ./client
+        restart: always
+        ports:
+            - '4200:4200'
+        volumes:
+            - ./client/src:/usr/client/src:cached
+        environment:
+            - CHOKIDAR_USEPOLLING=true
+            - CHOKIDAR_INTERVAL=1000
+            - API_URL=http://localhost:8000
+    server:
+        build: ./server
+        restart: always
+        ports:
+            - '8000:8000'
+        depends_on:
+            - mongodb
+        volumes:
+            - ./server/src:/usr/server/src
+            - ./files/:/usr/server/files/
+        environment:
+            - CHOKIDAR_USEPOLLING=true
+            - CHOKIDAR_INTERVAL=1000
+            - WEBSITE_URL=http://localhost:4200
+            - MODE=local
+            - DOCKERHOST=$DOCKERHOST
+    mongodb:
+        image: mongo:latest
+        ports:
+            - 6000:27017

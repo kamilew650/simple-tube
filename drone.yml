@@ -1,0 +1,28 @@
+# pipeline:
+#   publish-client:
+#     image: plugins/docker
+#     secrets:
+#       - docker_username
+#       - docker_password
+#     dockerfile: client/dev.Dockerfile
+#     context: client
+#     repo: docker.gorrion.pl/savvy-quest/player-sq
+#     registry: docker.gorrion.pl
+#     tags: client
+#     group: publish
+#     when:
+#       branch: [dev, prod]
+
+#   publish-server:
+#     image: plugins/docker
+#     secrets:
+#       - docker_username
+#       - docker_password
+#     dockerfile: server/dev.Dockerfile
+#     context: server
+#     repo: docker.gorrion.pl/savvy-quest/player-sq
+#     registry: docker.gorrion.pl
+#     tags: server
+#     group: publish
+#     when:
+#       branch: [dev, prod]
