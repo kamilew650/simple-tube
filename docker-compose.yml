@@ -1,16 +1,16 @@
 version: "3"
 services:
-  client:
-    build: ./client
-    restart: always
-    ports:
-      - "4200:4200"
-    volumes:
-      - ./client/src:/usr/client/src:cached
-    environment:
-      - CHOKIDAR_USEPOLLING=true
-      - CHOKIDAR_INTERVAL=1000
-      - API_URL=http://localhost:8000
+  # client:
+  #   build: ./client
+  #   restart: always
+  #   ports:
+  #     - "4200:4200"
+  #   volumes:
+  #     - ./client/src:/usr/client/src:cached
+  #   environment:
+  #     - CHOKIDAR_USEPOLLING=true
+  #     - CHOKIDAR_INTERVAL=1000
+  #     - API_URL=http://localhost:8000
   server:
     build: ./server
     restart: always
