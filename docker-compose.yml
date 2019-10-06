@@ -1,16 +1,16 @@
 version: "3"
 services:
-  # client:
-  #   build: ./client
-  #   restart: always
-  #   ports:
-  #     - "4200:4200"
-  #   volumes:
-  #     - ./client/src:/usr/client/src:cached
-  #   environment:
-  #     - CHOKIDAR_USEPOLLING=true
-  #     - CHOKIDAR_INTERVAL=1000
-  #     - API_URL=http://localhost:8000
+  client:
+    build: ./client
+    restart: always
+    ports:
+      - "4200:4200"
+    volumes:
+      - ./client/src:/usr/client/src:cached
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - CHOKIDAR_INTERVAL=1000
+      - API_URL=http://localhost:8000
   server:
     build: ./server
     restart: always
@@ -26,9 +26,16 @@ services:
       - CHOKIDAR_INTERVAL=1000
       - WEBSITE_URL=http://localhost:4200
       - MODE=local
-      - DOCKERHOST=$DOCKERHOST
-  mongo:
-    image: mongo
+      - MONGO_URL=mongodb
+      - MONGO_USERNAME=user1
+      - MONGO_PASSWORD=pass1
+      - MONGO_DATABASE_NAME=smart_reach_tech
+  mongodb:
+    build: ./mongodb
     restart: always
     ports:
       - "6000:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=user1
+      - MONGO_INITDB_ROOT_PASSWORD=pass1
+      - MONGO_INITDB_DATABASE=smart_reach_tech

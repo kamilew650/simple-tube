@@ -1,11 +1,7 @@
-import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { TypegooseModule } from 'nestjs-typegoose';
+import { Module } from '@nestjs/common'
+import { TypegooseModule } from 'nestjs-typegoose'
 
 @Module({
-  imports: [TypegooseModule.forRoot('mongodb://mongo/smart_reach_tech')],
-  controllers: [AppController],
-  providers: [AppService],
+	imports: [TypegooseModule.forRoot(`mongodb://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_URL}/${process.env.MONGO_DATABASE_NAME}`)],
 })
 export class AppModule {}

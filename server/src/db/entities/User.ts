@@ -12,9 +12,6 @@ export default class User extends Typegoose {
 	@prop()
 	phone: string
 
-	@prop()
-	website: string
-
 	@prop({ default: false })
 	isActive: boolean
 
