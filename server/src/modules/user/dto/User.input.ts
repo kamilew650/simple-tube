@@ -26,7 +26,6 @@ export default class UserInput {
 		user.email = this.email
 		user.firstName = this.email
 		user.lastName = this.lastName
-		user.password = this.password
 		user.phone = this.phone
 
 		return user

@@ -1,6 +1,7 @@
 import { Controller, Post, Body } from '@nestjs/common'
 import { UserService } from './user.service'
 import UserInput from './dto/User.input'
+import LoginInput from './dto/Login.input'
 
 @Controller('user')
 export class UserController {
@@ -12,8 +13,8 @@ export class UserController {
 	}
 
 	@Post('login')
-	async login(@Body('loginInput') loginInput: any) {
-		return await this.userService.login()
+	async login(@Body('loginInput') loginInput: LoginInput) {
+		return await this.userService.login(loginInput)
 	}
 
 	@Post('activeAccount')
