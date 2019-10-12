@@ -13,4 +13,7 @@ export default class Comment extends Typegoose {
 
 	@prop({ required: true })
 	content: string
+
+	@prop({ required: true })
+	date: Date
 }

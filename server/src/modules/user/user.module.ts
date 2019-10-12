@@ -1,8 +1,12 @@
 import { Module } from '@nestjs/common'
 import { UserService } from './user.service'
 import { UserController } from './user.controller'
+import { TypegooseModule } from 'nestjs-typegoose'
+import User from '../../db/entities/User'
+import { DbModule } from '../../db/db.module'
 
 @Module({
+	imports: [DbModule],
 	providers: [UserService],
 	controllers: [UserController],
 })

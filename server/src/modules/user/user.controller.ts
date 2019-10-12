@@ -9,6 +9,7 @@ export class UserController {
 
 	@Post('registration')
 	async registration(@Body('userInput') userInput: UserInput) {
+		console.log(userInput)
 		return await this.userService.registration(userInput)
 	}
 
@@ -19,6 +20,6 @@ export class UserController {
 
 	@Post('activeAccount')
 	async activeAccount(@Body('token') token: string) {
-		return await this.userService.activateAccount()
+		return await this.userService.activateAccount(token)
 	}
 }

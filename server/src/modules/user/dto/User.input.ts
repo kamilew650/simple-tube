@@ -1,5 +1,5 @@
 import { IsEmail, Length, IsDate } from 'class-validator'
-import User from 'src/db/entities/User'
+import User from '../../../db/entities/User'
 
 export default class UserInput {
 	@IsEmail()
@@ -19,14 +19,14 @@ export default class UserInput {
 	@IsDate()
 	birthDate: Date
 
-	toEntity(): User {
+	static toEntity(userInput: UserInput): User {
 		const user = new User()
 
-		user.birthDate = this.birthDate
-		user.email = this.email
-		user.firstName = this.email
-		user.lastName = this.lastName
-		user.phone = this.phone
+		user.birthDate = userInput.birthDate
+		user.email = userInput.email
+		user.firstName = userInput.firstName
+		user.lastName = userInput.lastName
+		user.phone = userInput.phone
 
 		return user
 	}
