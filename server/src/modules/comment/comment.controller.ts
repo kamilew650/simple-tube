@@ -1,30 +1,33 @@
-import { Controller, Put, Delete, Post, Body, Get } from '@nestjs/common'
+import { Controller, Put, Delete, Post, Body, Get, Param } from '@nestjs/common'
 import CommentInput from './dto/Comment.input'
+import { CommentService } from './comment.service'
 
 @Controller('comment')
 export class CommentController {
+	constructor(private readonly commentService: CommentService) {}
+
 	@Get('')
-	async find(@Body() commentInput: CommentInput) {
-		return null
+	async find() {
+		return this.commentService.find()
 	}
 
 	@Get('/:id')
-	async findOne() {
-		return null
+	async findOne(@Param('id') id: string) {
+		return this.commentService.findOne(id)
 	}
 
 	@Post('')
 	async create(@Body() commentInput: CommentInput) {
-		return null
+		return this.commentService.create(commentInput)
 	}
 
-	@Put('')
-	async update(@Body() commentInput: CommentInput) {
-		return null
+	@Put('/:id')
+	async update(@Param('id') id: string, @Body() commentInput: CommentInput) {
+		return this.commentService.update(id, commentInput)
 	}
 
-	@Delete('')
-	async delete(@Body() id: string) {
-		return null
+	@Delete('/:id')
+	async delete(@Param() id: string) {
+		return this.commentService.delete(id)
 	}
 }

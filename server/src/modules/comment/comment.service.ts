@@ -8,6 +8,14 @@ import { ModelType } from 'typegoose'
 export class CommentService {
 	constructor(@InjectModel(Comment) private readonly commentModels: ModelType<Comment>) {}
 
+	async find() {
+		return this.commentModels.find()
+	}
+
+	async findOne(id: string) {
+		return this.commentModels.findById(id)
+	}
+
 	async create(commentInput: CommentInput) {
 		const comment = CommentInput.toEntity(commentInput)
 
@@ -16,11 +24,11 @@ export class CommentService {
 		return newComment.save()
 	}
 
-	async update(commentInput: CommentInput) {
-		return null
+	async update(id: string, commentInput: CommentInput) {
+		return this.commentModels.findOneAndUpdate({ _id: id }, { content: commentInput.content }, { new: true })
 	}
 
-	async delete() {
-		return null
+	async delete(id: string) {
+		return this.commentModels.findByIdAndRemove({ _id: id })
 	}
 }
