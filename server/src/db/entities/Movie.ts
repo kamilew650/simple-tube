@@ -7,9 +7,6 @@ export default class Movie extends Typegoose {
 	@prop({ ref: User })
 	user: Ref<User>
 
-	@prop({ required: true })
-	password: string
-
 	@prop()
 	title: string
 
@@ -27,4 +24,7 @@ export default class Movie extends Typegoose {
 
 	@prop()
 	pictureUrl: string
+
+	@prop()
+	uploadDate: Date
 }

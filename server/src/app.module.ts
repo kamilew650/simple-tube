@@ -3,6 +3,7 @@ import { TypegooseModule } from 'nestjs-typegoose'
 import { UserModule } from './modules/user/user.module'
 import { CommentModule } from './modules/comment/comment.module'
 import { MovieModule } from './modules/movie/movie.module'
+import { SharedModule } from './shared/shared.module'
 
 @Module({
 	imports: [
