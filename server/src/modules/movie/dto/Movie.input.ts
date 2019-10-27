@@ -1,6 +1,4 @@
-import { IsEmail, Length, IsDate, IsString, IsNotEmpty, IsNumber } from 'class-validator'
-import User from '../../../db/entities/User'
-import Comment from '../../../db/entities/Comment'
+import { IsString, IsNotEmpty, IsNumber, IsDateString } from 'class-validator'
 import Movie from '../../../db/entities/Movie'
 
 export default class MovieInput {
@@ -12,17 +10,13 @@ export default class MovieInput {
 	@IsNotEmpty()
 	description: string
 
-	@IsString()
-	@IsNotEmpty()
-	content: string
+	// @IsNumber()
+	// @IsNotEmpty()
+	// likes: number
 
-	@IsNumber()
-	@IsNotEmpty()
-	likes: number
-
-	@IsNumber()
-	@IsNotEmpty()
-	dislikes: number
+	// @IsNumber()
+	// @IsNotEmpty()
+	// dislikes: number
 
 	@IsString()
 	@IsNotEmpty()
@@ -32,12 +26,18 @@ export default class MovieInput {
 	@IsNotEmpty()
 	pictureUrl: string
 
-	@IsDate()
+	@IsDateString()
 	@IsNotEmpty()
-	updateDate: Date
+	uploadDate: Date
 
 	static toEntity(movieInput: MovieInput): Movie {
 		const movie = new Movie()
+		movie.uploadDate = movieInput.uploadDate
+		movie.title = movieInput.title
+		movie.videoToken = movieInput.videoToken
+		movie.pictureUrl = movieInput.pictureUrl
+		movie.description = movieInput.description
+		movie.title = movieInput.title
 
 		return movie
 	}

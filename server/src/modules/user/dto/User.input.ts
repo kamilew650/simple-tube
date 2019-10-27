@@ -1,4 +1,4 @@
-import { IsEmail, Length, IsDate } from 'class-validator'
+import { IsEmail, Length, IsDateString } from 'class-validator'
 import User from '../../../db/entities/User'
 
 export default class UserInput {
@@ -16,7 +16,7 @@ export default class UserInput {
 
 	activeToken: string
 
-	@IsDate()
+	@IsDateString()
 	birthDate: Date
 
 	static toEntity(userInput: UserInput): User {

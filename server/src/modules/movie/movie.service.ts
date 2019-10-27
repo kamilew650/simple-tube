@@ -25,10 +25,10 @@ export class MovieService {
 	}
 
 	async update(id: string, movieInput: MovieInput) {
-		return this.movieModels.findOneAndUpdate({ _id: id }, { content: movieInput.content }, { new: true })
+		return this.movieModels.findOneAndUpdate({ _id: id }, { description: movieInput.description }, { new: true })
 	}
 
 	async delete(id: string) {
-		return this.movieModels.findByIdAndRemove({ _id: id })
+		return this.movieModels.findByIdAndRemove(id)
 	}
 }

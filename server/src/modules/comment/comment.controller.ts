@@ -1,4 +1,4 @@
-import { Controller, Put, Delete, Post, Body, Get, Param } from '@nestjs/common'
+import { Controller, Put, Delete, Post, Body, Get, Param, HttpCode } from '@nestjs/common'
 import CommentInput from './dto/Comment.input'
 import { CommentService } from './comment.service'
 
@@ -17,17 +17,18 @@ export class CommentController {
 	}
 
 	@Post('')
-	async create(@Body() commentInput: CommentInput) {
+	async create(@Body('commentInput') commentInput: CommentInput) {
 		return this.commentService.create(commentInput)
 	}
 
 	@Put('/:id')
-	async update(@Param('id') id: string, @Body() commentInput: CommentInput) {
+	async update(@Param('id') id: string, @Body('commentInput') commentInput: CommentInput) {
 		return this.commentService.update(id, commentInput)
 	}
 
 	@Delete('/:id')
-	async delete(@Param() id: string) {
+	@HttpCode(204)
+	async delete(@Param('id') id: string) {
 		return this.commentService.delete(id)
 	}
 }

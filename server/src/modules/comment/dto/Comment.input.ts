@@ -1,22 +1,17 @@
-import { IsEmail, Length, IsDate, IsString, IsNotEmpty } from 'class-validator'
-import User from '../../../db/entities/User'
+import { IsNotEmpty, IsDateString } from 'class-validator'
 import Comment from '../../../db/entities/Comment'
 
 export default class CommentInput {
-	@IsString()
 	@IsNotEmpty()
 	user: string
 
-	@IsString()
 	@IsNotEmpty()
 	movie: string
 
-	@IsString()
 	@IsNotEmpty()
 	content: string
 
-	@IsDate()
-	@IsNotEmpty()
+	@IsDateString()
 	date: Date
 
 	static toEntity(commentInput: CommentInput): Comment {

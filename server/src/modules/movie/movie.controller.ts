@@ -18,17 +18,17 @@ export class MovieController {
 	}
 
 	@Post('')
-	async create(@Body() commentInput: MovieInput) {
-		return this.movieService.create(commentInput)
+	async create(@Body('movieInput') movieInput: MovieInput) {
+		return this.movieService.create(movieInput)
 	}
 
 	@Put('/:id')
-	async update(@Param('id') id: string, @Body() commentInput: MovieInput) {
-		return this.movieService.update(id, commentInput)
+	async update(@Param('id') id: string, @Body('movieInput') movieInput: MovieInput) {
+		return this.movieService.update(id, movieInput)
 	}
 
 	@Delete('/:id')
-	async delete(@Param() id: string) {
+	async delete(@Param('id') id: string) {
 		return this.movieService.delete(id)
 	}
 }
