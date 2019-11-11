@@ -9,7 +9,6 @@ export class UserController {
 
 	@Post('registration')
 	async registration(@Body('userInput') userInput: UserInput) {
-		console.log(userInput)
 		return await this.userService.registration(userInput)
 	}
 

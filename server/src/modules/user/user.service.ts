@@ -53,4 +53,8 @@ export class UserService {
 
 		return true
 	}
+
+	async findOne(login: string): Promise<User | undefined> {
+		return this.userModels.findOne(user => user.login === login)
+	}
 }
