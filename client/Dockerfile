@@ -1,4 +1,4 @@
-FROM node:alpine
+FROM node:13.1.0-alpine
 
 WORKDIR /usr/front
 
@@ -11,7 +11,6 @@ RUN yarn global add @angular/cli
 COPY src src/
 COPY angular.json .
 COPY tsconfig.json .
-COPY tsconfig.app.json .
 
 EXPOSE 4200
 

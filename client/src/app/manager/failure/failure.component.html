@@ -1,0 +1,120 @@
+<div class="container-fluid">
+  <div class="row margin-bottom-div">
+    <div class="col-xs-12 col-sm-10 offset-sm-1">
+      <div class="login-form">
+        <div class="panel-body login-form">
+          <div>
+            <h3>Lista awarii</h3>
+          </div>
+          <div class="table-responsive-md">
+            <table id="dtBasicExample" class="table table-striped table-bordered">
+              <thead>
+                <tr>
+                  <th class="th">Id awarii
+                  </th>
+                  <th class="th">Id pojazdu
+                  </th>
+                  <th class="th">Naprawiono
+                  </th>
+                  <th class="th">Data zgłoszenia
+                  </th>
+                  <th class="th">Zaakceptowane do naprawy
+                  </th>
+                  <th class="th">Data naprawy
+                  </th>
+                  <th class="th">Planowana data naprawy
+                  </th>
+                  <th class="th">Akcje
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let failure of failures">
+                  <td>{{failure.id}}</td>
+                  <td>{{failure.vehicleId}}</td>
+                  <td>{{failure.repaired ? "Tak" : "Nie"}}</td>
+                  <td>{{failure.notificationDate ? failure.notificationDate.toISOString().substring(0, 10) : 'Brak'}}
+                  </td>
+                  <td>{{failure.acceptedForRepair ? "Tak" : "Nie"}}</td>
+                  <td>{{failure.endOfRepairDate ? failure.endOfRepairDate.toISOString().substring(0, 10) : 'Brak'}}</td>
+                  <td>
+                    {{failure.plannedEndOfRepairDate ? failure.plannedEndOfRepairDate.toISOString().substring(0, 10) : 'Brak'}}
+                  </td>
+                  <td>
+                    <button class="btn btn-warning" (click)="openEditModal(failure.id, content)"><i
+                        class="fas fa-edit"></i></button>
+                    <button class="btn btn-info" (click)="openInfoModal(failure.id, content)"><i
+                        class="fas fa-info-circle"></i></button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #content let-modal>
+  <div class="modal-header" *ngIf="step === 1">
+    <h4 class="modal-title" id="modal-basic-title">Edytuj awarie</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-header" *ngIf="step === 2">
+    <h4 class="modal-title" id="modal-basic-title">Opis awarii</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" *ngIf="step === 1">
+    <div class="form-group">
+      <h3>Id awarii: {{selectedFailure.id}}</h3>
+    </div>
+    <div class="form-group">
+      <label for="dateOfBirth">Naprawiono</label>
+      <div class="input-group">
+        <input [(ngModel)]="selectedFailure.repaired" type='checkbox' id="repaired" name="repaired" ngControl="repaired"
+          #repaired="ngModel" required class="form-control" placeholder="Podaj nazwisko...">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="dateOfBirth">Zaakceptowane do naprawy</label>
+      <div class="input-group">
+        <input [(ngModel)]="selectedFailure.acceptedForRepair" type='checkbox' id="acceptedForRepair"
+          name="acceptedForRepair" ngControl="acceptedForRepair" #acceptedForRepair="ngModel" required
+          class="form-control" placeholder="Podaj login...">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="dateOfBirth">Data naprawy</label>
+      <div class="input-group">
+        <input [(ngModel)]="selectedFailure.endOfRepairDate" type='date' id="endOfRepairDate" name="endOfRepairDate"
+          ngControl="endOfRepairDate" #endOfRepairDate="ngModel" required class="form-control"
+          placeholder="Podaj hasło...">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="dateOfBirth">Planowana data naprawy</label>
+      <div class="input-group">
+        <input [(ngModel)]="selectedFailure.plannedEndOfRepairDate" type='date' id="plannedEndOfRepairDate"
+          name="plannedEndOfRepairDate" ngControl="plannedEndOfRepairDate" #plannedEndOfRepairDate="ngModel" required
+          class="form-control" placeholder="Powtórz hasło...">
+      </div>
+    </div>
+  </div>
+  <div class="modal-body" *ngIf="step === 2">
+    <div>
+      {{selectedFailure.description}}
+    </div>
+  </div>
+  <div class="modal-footer" *ngIf="step === 1">
+    <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">Anuluj</button>
+    <button type="button" class="btn btn-primary" (click)="editFailure()">Edytuj</button>
+  </div>
+  <div class="modal-footer" *ngIf="step === 2">
+    <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">Anuluj</button>
+  </div>
+</ng-template>

@@ -1,0 +1,104 @@
+<div class="container-fluid">
+  <div class="row margin-bottom-div">
+    <div class="col-xs-12 col-sm-10 offset-sm-1">
+      <div class="login-form">
+        <div class="panel-body login-form">
+          <div>
+            <h3>Lista przystanków</h3>
+          </div>
+          <div class="add-button-div">
+            <button class="btn btn-primary" (click)="openAddModal(content)">Dodaj przystanek</button>
+          </div>
+          <div class="table-responsive-md">
+            <table id="dtBasicExample" class="table table-striped table-bordered">
+              <thead>
+                <tr>
+                  <th class="th">Id
+                  </th>
+                  <th class="th">Nazwa
+                  </th>
+                  <th class="th">Adres
+                  </th>
+                  <th class="th">Akcje
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let stop of busStops">
+                  <td>{{stop.id}}</td>
+                  <td>{{stop.name}}</td>
+                  <td>{{stop.address}}</td>
+                  <td>
+                    <button class="btn btn-warning" (click)="openEditModal(stop.id, content)"><i
+                        class="fas fa-edit"></i></button>
+                    <button class="btn btn-danger" (click)="deleteBusStop(stop.id)"><i
+                        class="fas fa-trash-alt"></i></button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #content let-modal>
+  <div class="modal-header" *ngIf="step === 1">
+    <h4 class="modal-title" id="modal-basic-title">Dodaj przystanek</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-header" *ngIf="step === 2">
+    <h4 class="modal-title" id="modal-basic-title">Edytuj przystanek</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" *ngIf="step === 1">
+    <form (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="dateOfBirth">Nazwa przystanku</label>
+        <div class="input-group">
+          <input [(ngModel)]="newBusStop.name" id="name" name="name" ngControl="name" #name="ngModel" required
+            class="form-control" placeholder="Podaj nazwe...">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="dateOfBirth">Adres</label>
+        <div class="input-group">
+          <input [(ngModel)]="newBusStop.address" id="address" name="address" ngControl="address" #address="ngModel"
+            required class="form-control" placeholder="Podaj adres...">
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-body" *ngIf="step === 2">
+    <form (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="dateOfBirth">Nazwa przystanku</label>
+        <div class="input-group">
+          <input [(ngModel)]="selectedBusStop.name" id="name" name="name" ngControl="name" #name="ngModel" required
+            class="form-control" placeholder="Podaj nazwe...">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="dateOfBirth">Adres</label>
+        <div class="input-group">
+          <input [(ngModel)]="selectedBusStop.address" id="address" name="address" ngControl="address"
+            #address="ngModel" required class="form-control" placeholder="Podaj adres...">
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer" *ngIf="step === 1">
+    <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">Anuluj</button>
+    <button type="button" class="btn btn-primary" (click)="addBusStop()">Dodaj</button>
+  </div>
+  <div class="modal-footer" *ngIf="step === 2">
+    <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">Anuluj</button>
+    <button type="button" class="btn btn-primary" (click)="editBusStop()">Edytuj</button>
+  </div>
+</ng-template>

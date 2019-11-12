@@ -1,0 +1,77 @@
+<div class="container-fluid">
+  <div class="row margin-bottom-div">
+    <div class="col-xs-12 col-sm-10 offset-sm-1">
+      <div class="login-form">
+        <div class="panel-body login-form">
+          <div>
+            <h3>Lista przeglądów</h3>
+          </div>
+          <div class="table-responsive-md">
+            <table id="dtBasicExample" class="table table-striped table-bordered">
+              <thead>
+                <tr>
+                  <th class="th">Id przeglądu
+                  </th>
+                  <th class="th">Id pojazdu
+                  </th>
+                  <th class="th">Data wykonania
+                  </th>
+                  <th class="th">Termin
+                  </th>
+                  <th class="th">Pozytywne przejscie
+                  </th>
+                  <th class="th">Akcje
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let review of reviews">
+                  <td>{{review.id}}</td>
+                  <td>{{review.vehicleId}}</td>
+                  <td>{{review.date ? review.date.toISOString().substring(0, 10) : "Brak"}}</td>
+                  <td>{{review.dueDate ? review.dueDate.toISOString().substring(0, 10) : "Brak"}}</td>
+                  <td>{{review.passed ? "Tak" : "Nie"}}</td>
+                  <td>
+                    <button class="btn btn-warning" (click)="openEditModal(review.id, content)"><i class=" fas
+                      fa-edit"></i></button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Dodaj użytkownika</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <label for="dateOfBirth">Data wykonania</label>
+        <div class="input-group">
+          <input [(ngModel)]="selectedTechnicalReview.date" id="dueDate" type="date" name="dueDate" ngControl="dueDate"
+            #passwordAgainVal="ngModel" required class="form-control" placeholder="Powtórz date zakupu...">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="dateOfBirth">Pozytywne przejście</label>
+        <div class="input-group">
+          <input [(ngModel)]="selectedTechnicalReview.passed" id="passed" type="checkbox" name="passed"
+            ngControl="passed" #passwordAgainVal="ngModel" required class="form-control">
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">Anuluj</button>
+    <button type="button" class="btn btn-primary" (click)="editTechnicalReview()">Edytuj</button>
+  </div>
+</ng-template>
