@@ -10,14 +10,6 @@ export default class MovieInput {
 	@IsNotEmpty()
 	description: string
 
-	// @IsNumber()
-	// @IsNotEmpty()
-	// likes: number
-
-	// @IsNumber()
-	// @IsNotEmpty()
-	// dislikes: number
-
 	@IsString()
 	@IsNotEmpty()
 	videoToken: string

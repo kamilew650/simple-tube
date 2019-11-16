@@ -3,10 +3,7 @@ import Comment from '../../../db/entities/Comment'
 
 export default class CommentInput {
 	@IsNotEmpty()
-	user: string
-
-	@IsNotEmpty()
-	movie: string
+	movieId: string
 
 	@IsNotEmpty()
 	content: string

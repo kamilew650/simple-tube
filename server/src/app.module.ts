@@ -6,6 +6,8 @@ import { MovieModule } from './modules/movie/movie.module'
 import { PassportModule } from '@nestjs/passport'
 import { JwtStrategy } from './modules/auth/jwt.strategy'
 import { AuthModule } from './modules/auth/auth.module'
+import { CloudStorageService } from './services/cloud-storage.service'
+import { ServiceModule } from './services/service.module'
 
 @Module({
 	imports: [
@@ -15,6 +17,7 @@ import { AuthModule } from './modules/auth/auth.module'
 		CommentModule,
 		MovieModule,
 		AuthModule,
+		ServiceModule,
 	],
 })
 export class AppModule {}

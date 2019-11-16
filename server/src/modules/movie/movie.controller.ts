@@ -1,15 +1,15 @@
-import { Controller, Get, Param, Post, Body, Put, Delete, UseGuards, Request } from '@nestjs/common'
+import { Controller, Get, Param, Post, Body, Put, Delete, UseGuards, Request, UseInterceptors, UploadedFile } from '@nestjs/common'
 import { AuthGuard } from '@nestjs/passport'
 import { MovieService } from './movie.service'
-import CommentInput from '../comment/dto/Comment.input'
 import MovieInput from './dto/Movie.input'
+import { FileInterceptor } from '@nestjs/platform-express'
 
 @Controller('movie')
 export class MovieController {
 	constructor(private readonly movieService: MovieService) {}
 
 	@Get('')
-	async find(@Request() req) {
+	async find() {
 		return this.movieService.find()
 	}
 
@@ -19,9 +19,11 @@ export class MovieController {
 	}
 
 	@UseGuards(AuthGuard('jwt'))
+	@UseInterceptors(FileInterceptor('file'))
 	@Post('')
-	async create(@Body('movieInput') movieInput: MovieInput) {
-		return this.movieService.create(movieInput)
+	async create(@Body('movieInput') movieInputString: string, @UploadedFile() file, @Request() req) {
+		const movieInput = JSON.parse(movieInputString) as MovieInput
+		return this.movieService.create(movieInput, file, req.user ? req.user._id : '')
 	}
 
 	@UseGuards(AuthGuard('jwt'))

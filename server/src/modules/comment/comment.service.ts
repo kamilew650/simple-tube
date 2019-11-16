@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, UnauthorizedException, NotFoundException } from '@nestjs/common'
 import CommentInput from './dto/Comment.input'
 import Comment from '../../db/entities/Comment'
 import { InjectModel } from 'nestjs-typegoose'
@@ -8,7 +8,11 @@ import Movie from '../../db/entities/Movie'
 
 @Injectable()
 export class CommentService {
-	constructor(@InjectModel(Comment) private readonly commentModels: ModelType<Comment>) {}
+	constructor(
+		@InjectModel(Comment) private readonly commentModels: ModelType<Comment>, //
+		@InjectModel(User) private readonly userModels: ModelType<User>,
+		@InjectModel(Movie) private readonly movieModels: ModelType<Movie>,
+	) {}
 
 	async find() {
 		return this.commentModels.find()
@@ -18,11 +22,20 @@ export class CommentService {
 		return this.commentModels.findById(id)
 	}
 
-	async create(commentInput: CommentInput) {
+	async create(commentInput: CommentInput, userId: string) {
 		const comment = CommentInput.toEntity(commentInput)
 		comment.date = commentInput.date
-		comment.user = (commentInput.user as unknown) as User
-		comment.movie = (commentInput.movie as unknown) as Movie
+		comment.user = await this.userModels.findById(userId)
+
+		if (!comment.user) {
+			throw new UnauthorizedException()
+		}
+
+		comment.movie = await this.movieModels.findById(commentInput.movieId)
+
+		if (!comment.movie) {
+			throw new NotFoundException('Movie not found')
+		}
 
 		const newComment = new this.commentModels(comment)
 

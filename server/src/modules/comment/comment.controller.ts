@@ -1,4 +1,4 @@
-import { Controller, Put, Delete, Post, Body, Get, Param, HttpCode, UseGuards } from '@nestjs/common'
+import { Controller, Put, Delete, Post, Body, Get, Param, HttpCode, UseGuards, Req } from '@nestjs/common'
 import CommentInput from './dto/Comment.input'
 import { CommentService } from './comment.service'
 import { AuthGuard } from '@nestjs/passport'
@@ -19,8 +19,8 @@ export class CommentController {
 
 	@UseGuards(AuthGuard('jwt'))
 	@Post('')
-	async create(@Body('commentInput') commentInput: CommentInput) {
-		return this.commentService.create(commentInput)
+	async create(@Body('commentInput') commentInput: CommentInput, @Req() request) {
+		return this.commentService.create(commentInput, request.user ? request.user._id : '')
 	}
 
 	@UseGuards(AuthGuard('jwt'))
