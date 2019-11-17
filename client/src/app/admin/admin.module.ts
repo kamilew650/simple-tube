@@ -8,7 +8,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [AdminComponent, NavbarComponent, UsersComponent],
+  declarations: [AdminComponent, NavbarComponent],
   imports: [
     CommonModule,
     AdminRoutingModule,

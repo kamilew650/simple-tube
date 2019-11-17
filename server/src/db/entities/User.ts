@@ -1,4 +1,5 @@
 import { Typegoose, prop } from 'typegoose'
+import { UserRole } from '../../shared/RoleEnum'
 
 export default class User extends Typegoose {
 	_id: string
@@ -14,6 +15,9 @@ export default class User extends Typegoose {
 
 	@prop({ default: false })
 	isActive: boolean
+
+	@prop({ default: UserRole.User })
+	role: UserRole
 
 	@prop()
 	firstName: string

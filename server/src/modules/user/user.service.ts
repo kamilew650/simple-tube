@@ -7,19 +7,21 @@ import * as argon2 from 'argon2'
 import LoginInput from './dto/Login.input'
 import { ModelType } from 'typegoose'
 import User from '../../db/entities/User'
+import { UserRole } from '../../shared/RoleEnum'
 
 @Injectable()
 export class UserService {
 	constructor(
 		@InjectModel(User) private readonly userModels: ModelType<User>, //
 		private readonly jwtService: JwtService,
-	) {}
+	) { }
 
 	async registration(userInput: UserInput) {
 		const userEntity = UserInput.toEntity(userInput)
 		userEntity.activeToken = crypto.randomBytes(48).toString('hex')
 		userEntity.password = await argon2.hash(userInput.password)
 		userEntity.isActive = false
+		userEntity.role = UserRole.User
 
 		const newUser = new this.userModels(userEntity)
 
@@ -35,6 +37,9 @@ export class UserService {
 			const payload = { email: user.email, _id: user._id }
 			return {
 				access_token: this.jwtService.sign(payload),
+				email: user.email,
+				_id: user._id,
+				role: user.role,
 			}
 		} else {
 			throw new UnauthorizedException()
@@ -55,6 +60,8 @@ export class UserService {
 	}
 
 	async findOne(login: string): Promise<User | undefined> {
-		return this.userModels.findOne(user => user.login === login)
+		const user = await this.userModels.findOne(u => u.login === login)
+		user.password = null
+		return user
 	}
 }

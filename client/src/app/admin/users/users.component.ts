@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import User from 'src/app/models/User';
-import { UserService } from 'src/app/services/user.service';
 import { FormBuilder, FormControl, Validators, FormGroup } from '@angular/forms';
-import { container } from '@angular/core/src/render3';
 import { RoleEnum } from 'src/app/models/RoleEnum';
 
 @Component({
@@ -14,9 +12,9 @@ import { RoleEnum } from 'src/app/models/RoleEnum';
 export class UsersComponent implements OnInit {
 
   ngOnInit() {
-    this.userService.getUsers().then(users => {
-      this.users = users as User[]
-    })
+    // this.userService.getUsers().then(users => {
+    //   this.users = users as User[]
+    // })
   }
 
   roles = [
@@ -51,12 +49,12 @@ export class UsersComponent implements OnInit {
 
   closeResult: string;
 
-  constructor(private modalService: NgbModal, private userService: UserService) { }
+  constructor(private modalService: NgbModal) { }
 
   initial() {
-    this.userService.getUsers().then(users => {
-      this.users = users as User[]
-    })
+    // this.userService.getUsers().then(users => {
+    //   this.users = users as User[]
+    // })
   }
 
   open(content) {
@@ -78,46 +76,46 @@ export class UsersComponent implements OnInit {
   }
 
   deleteUser(id: number) {
-    this.userService.deleteUser(id).then(res => {
-      this.users = this.users.filter(u => u.id !== id)
-    })
+    // this.userService.deleteUser(id).then(res => {
+    //   this.users = this.users.filter(u => u.id !== id)
+    // })
   }
 
   addUser() {
-    this.userService.addUser(this.newUser).then(res => {
-      this.initial()
-      this.modalService.dismissAll()
-    })
+    // this.userService.addUser(this.newUser).then(res => {
+    //   this.initial()
+    //   this.modalService.dismissAll()
+    // })
   }
 
   editUser() {
-    this.userService.updateUser(this.selectedUser.id, this.selectedUser).then(res => {
-      this.initial()
-      this.modalService.dismissAll()
-    })
+    // this.userService.updateUser(this.selectedUser.id, this.selectedUser).then(res => {
+    //   this.initial()
+    //   this.modalService.dismissAll()
+    // })
   }
 
-  getRoleName(role: RoleEnum): string {
-    switch (role) {
-      case 0:
-        return 'Kierowca'
-        break
-      case 1:
-        return 'Dystrybutor'
-        break
-      case 2:
-        return 'Manager'
-        break
-      case 3:
-        return 'Planista'
-        break
-      case 4:
-        return 'Administrator'
-        break
-      default:
-        return ''
+  getRoleName(role: RoleEnum) {
+    // switch (role) {
+    //   case 0:
+    //     return 'Kierowca'
+    //     break
+    //   case 1:
+    //     return 'Dystrybutor'
+    //     break
+    //   case 2:
+    //     return 'Manager'
+    //     break
+    //   case 3:
+    //     return 'Planista'
+    //     break
+    //   case 4:
+    //     return 'Administrator'
+    //     break
+    //   default:
+    //     return ''
 
-    }
+    // }
   }
 
 }
