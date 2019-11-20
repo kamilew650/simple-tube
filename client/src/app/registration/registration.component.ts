@@ -25,6 +25,9 @@ export class RegistrationComponent implements OnInit {
     private readonly route: ActivatedRoute) { }
 
   ngOnInit() {
+    if (this.loginService.isLoggedIn) {
+      this.router.navigateByUrl('/');
+    }
   }
 
 
@@ -33,8 +36,6 @@ export class RegistrationComponent implements OnInit {
       this.isError = true;
       return
     }
-
-    console.log(typeof this.birthDate)
 
     this.loginService
       .registration({
@@ -46,22 +47,10 @@ export class RegistrationComponent implements OnInit {
         lastName: this.lastName,
       })
       .then(res => {
-        const user = res as any;
-        console.log(user);
-        switch (user.role) {
-          case 0:
-            this.router.navigateByUrl('/driver');
-            break;
-          case 1:
-            this.router.navigateByUrl('/setter');
-            break;
-
-          default:
-            this.isError = true;
-        }
+        this.router.navigateByUrl('/login');
       })
       .catch(err => {
-        console.error(err);
+        this.isError = true;
       });
   }
 

@@ -24,11 +24,18 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.clean();
+    if (this.loginService.isLoggedIn) {
+      this.router.navigateByUrl('/');
+    }
   }
 
   clean() {
     this.login = null;
     this.password = null;
+  }
+
+  navigateToRegistration() {
+    this.router.navigateByUrl('/registration');
   }
 
   tryLogin() {
@@ -39,10 +46,10 @@ export class LoginComponent implements OnInit {
         console.log(user);
         switch (user.role) {
           case 0:
-            this.router.navigateByUrl('/driver');
+            this.router.navigateByUrl('/admin');
             break;
           case 1:
-            this.router.navigateByUrl('/setter');
+            this.router.navigateByUrl('/');
             break;
 
           default:
@@ -51,6 +58,7 @@ export class LoginComponent implements OnInit {
       })
       .catch(err => {
         console.error(err);
+        this.isError = true;
       });
   }
 }

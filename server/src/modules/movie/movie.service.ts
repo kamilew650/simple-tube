@@ -13,7 +13,7 @@ export class MovieService {
 		@InjectModel(Movie) private readonly movieModels: ModelType<Movie>, //
 		@InjectModel(User) private readonly userModels: ModelType<User>,
 		private readonly cloudStorageService: CloudStorageService,
-	) {}
+	) { }
 
 	async find() {
 		return this.movieModels.find()
@@ -37,6 +37,7 @@ export class MovieService {
 		newMovie.likes = 0
 		newMovie.dislikes = 0
 		newMovie.user = await this.userModels.findById(userId)
+		newMovie.uploadDate = new Date()
 
 		if (!newMovie.user) {
 			throw new UnauthorizedException()

@@ -12,9 +12,12 @@ import { LoginService } from './services/login.service';
 import { CustomHttpService } from './services/custom-http.service';
 import { CookieService } from 'ngx-cookie-service';
 import { RegistrationComponent } from './registration/registration.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { HomeComponent } from './home/home.component';
+import { MyMoviesComponent } from './my-movies/my-movies.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, RegistrationComponent],
+  declarations: [AppComponent, LoginComponent, RegistrationComponent, NavbarComponent, HomeComponent, MyMoviesComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

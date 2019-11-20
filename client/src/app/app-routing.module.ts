@@ -4,11 +4,13 @@ import { Routes, RouterModule, LoadChildren } from '@angular/router';
 import { AdminModule } from './admin/admin.module';
 import { LoginComponent } from './login/login.component';
 import { RegistrationComponent } from './registration/registration.component';
+import { HomeComponent } from './home/home.component';
+import { MyMoviesComponent } from './my-movies/my-movies.component';
 
 export const routes: Routes = [
   {
-    path: 'main',
-    component: LoginComponent
+    path: '',
+    component: HomeComponent
   },
   {
     path: 'login',
@@ -17,6 +19,10 @@ export const routes: Routes = [
   {
     path: 'registration',
     component: RegistrationComponent
+  },
+  {
+    path: 'my-movies',
+    component: MyMoviesComponent
   },
 ];
 
