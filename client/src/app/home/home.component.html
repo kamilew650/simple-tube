@@ -1,0 +1,19 @@
+<div class="container player-background">
+    <div class="row">
+        <div class="col">
+        </div>
+        <div class="col-8">
+            <br />
+            <h3>Dostępne filmy</h3>
+            <br />
+            <div class="list-group">
+                <a *ngFor="let movie of movies" routerLink="/player/{{movie._id}}"
+                    class="list-group-item list-group-item-action">
+                    {{movie.title}}
+                </a>
+            </div>
+        </div>
+        <div class="col">
+        </div>
+    </div>
+</div>

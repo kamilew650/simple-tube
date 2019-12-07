@@ -30,8 +30,8 @@ services:
       - MONGO_USERNAME=user1
       - MONGO_PASSWORD=pass1
       - MONGO_DATABASE_NAME=smart_reach_tech
-      - AWSID=AKIA6IZIC33VJDU4HAZP
-      - AWSSECRET=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
+      - AWSID=${AWSID}
+      - AWSSECRET=${AWSSECRET}
       - BUCKETNAME=simpletube
   mongodb:
     build: ./mongodb

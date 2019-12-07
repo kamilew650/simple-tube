@@ -8,3 +8,4 @@ db.createUser({
     }
   ]
 });
+load("./seed/seed.js");

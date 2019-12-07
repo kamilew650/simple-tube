@@ -6,7 +6,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AdminModule } from './admin/admin.module';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginService } from './services/login.service';
 import { CustomHttpService } from './services/custom-http.service';
@@ -15,9 +14,22 @@ import { RegistrationComponent } from './registration/registration.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { HomeComponent } from './home/home.component';
 import { MyMoviesComponent } from './my-movies/my-movies.component';
+import { MovieService } from './services/movie.service';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { PlayerComponent } from './player/player.component';
+import { UsersComponent } from './users/users.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, RegistrationComponent, NavbarComponent, HomeComponent, MyMoviesComponent],
+  declarations: [
+    AppComponent,
+    LoginComponent,
+    RegistrationComponent,
+    NavbarComponent,
+    HomeComponent,
+    MyMoviesComponent,
+    PlayerComponent,
+    UsersComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -26,8 +38,9 @@ import { MyMoviesComponent } from './my-movies/my-movies.component';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    FontAwesomeModule,
   ],
-  providers: [LoginService, CustomHttpService, CookieService],
+  providers: [LoginService, CustomHttpService, CookieService, MovieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

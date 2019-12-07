@@ -44,6 +44,28 @@
     width: 100%;
   }
   .title-div {
-    min-width: 315px;
+    min-width: 200px;
   }
   
+  .element:link {
+    text-decoration: none;
+  }
+  
+  .element:visited {
+    text-decoration: none;
+  }
+  
+  .element:hover {
+    cursor: pointer;
+  }
+  
+  .element:active {
+  }
+
+  .log-button {
+    margin-left: 7px;
+  }
+
+  .navbar-content {
+    align-content: center;
+  }

@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit {
         console.log(user);
         switch (user.role) {
           case 0:
-            this.router.navigateByUrl('/admin');
+            this.router.navigateByUrl('/');
             break;
           case 1:
             this.router.navigateByUrl('/');

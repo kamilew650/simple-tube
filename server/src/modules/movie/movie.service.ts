@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common'
+import { Injectable, UnauthorizedException, InternalServerErrorException } from '@nestjs/common'
 import { InjectModel } from 'nestjs-typegoose'
 import Movie from '../../db/entities/Movie'
 import { ModelType } from 'typegoose'
@@ -6,6 +6,7 @@ import MovieInput from './dto/Movie.input'
 import { CloudStorageService } from '../../services/cloud-storage.service'
 import User from '../../db/entities/User'
 import * as uuid from 'uuid'
+import { throwError } from 'rxjs'
 
 @Injectable()
 export class MovieService {
@@ -45,7 +46,13 @@ export class MovieService {
 
 		newMovie.videoToken = fileToken
 
-		return newMovie.save()
+		await newMovie.save()
+
+		const { user, ...movieModel } = newMovie
+
+		newMovie.user = user._id as unknown as User
+
+		return newMovie
 	}
 
 	async update(id: string, movieInput: MovieInput) {
@@ -53,6 +60,14 @@ export class MovieService {
 	}
 
 	async delete(id: string) {
-		return this.movieModels.findByIdAndRemove(id)
+		try {
+			const movie = await this.movieModels.findById(id)
+			await this.cloudStorageService.delete(movie.videoToken)
+
+			return this.movieModels.findByIdAndRemove(id)
+		} catch (err) {
+			console.error(err)
+			throw new InternalServerErrorException()
+		}
 	}
 }

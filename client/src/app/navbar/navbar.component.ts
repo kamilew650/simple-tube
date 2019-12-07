@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from 'src/app/services/login.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -11,19 +11,22 @@ export class NavbarComponent implements OnInit {
   isLoggedIn = false
   user
 
-  constructor(private loginService: LoginService, private router: Router) {
-
+  constructor(private loginService: LoginService, private router: Router, private activeRoute: ActivatedRoute) {
+    router.events.subscribe((val) => {
+      this.ngOnInit()
+    });
   }
 
   ngOnInit() {
     this.isLoggedIn = this.loginService.isLoggedIn
     this.user = this.loginService.loggedUser
-    console.log(this.user)
   }
 
   logout() {
     this.loginService.logout()
     this.router.navigate(['/login'])
+    this.isLoggedIn = false
+    this.user = null
   }
 
   logIn() {

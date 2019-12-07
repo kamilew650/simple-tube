@@ -20,7 +20,7 @@ export class UserService {
 		const userEntity = UserInput.toEntity(userInput)
 		userEntity.activeToken = crypto.randomBytes(48).toString('hex')
 		userEntity.password = await argon2.hash(userInput.password)
-		userEntity.isActive = false
+		userEntity.isActive = true
 		userEntity.role = UserRole.User
 
 		const newUser = new this.userModels(userEntity)
@@ -59,9 +59,32 @@ export class UserService {
 		return true
 	}
 
-	async findOne(login: string): Promise<User | undefined> {
+	async findOneByLogin(login: string): Promise<User | undefined> {
 		const user = await this.userModels.findOne(u => u.login === login)
 		user.password = null
 		return user
+	}
+
+	async findOne(id: string): Promise<User | undefined> {
+		const user = await this.userModels.findById(id)
+		user.password = null
+		return user
+	}
+
+	async find() {
+		const users = await this.userModels.find()
+
+		return users.map(user => {
+			user.password = null
+			return user
+		})
+	}
+
+	// async update(id: string, commentInput: UserInput) {
+	// 	return this.userModels.findOneAndUpdate({ _id: id }, { content: commentInput.content }, { new: true })
+	// }
+
+	async delete(id: string) {
+		return this.userModels.findByIdAndRemove(id)
 	}
 }

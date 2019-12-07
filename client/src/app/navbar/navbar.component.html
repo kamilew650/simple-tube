@@ -1,23 +1,28 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="">
-        <h2><i class="fas fa-bus"></i></h2>
-    </a>
-    <h2 class="title-div">Panel administracyjny</h2>
-    <div *ngIf="this.user && this.user.role === 0" class="user d-inline">
-        <button type="button" id="userMenuButton" class="btn" dropdownToggle>
-            <span class="name hidden-sm hidden-xs">Użytkownicy</span>
-        </button>
-    </div>
-    <div *ngIf="this.user && this.user.role === 1" class="user d-inline">
-        <button routerLink="/my-movies" routerLinkActive="active" type="button" id="userMenuButton" class="btn"
-            dropdownToggle>
-            <span class="name hidden-sm hidden-xs">Moje filmy</span>
-        </button>
-    </div>
-    <div *ngIf="isLoggedIn" class="sign-in d-inline logout-button-div">
-        <a class="btn btn-info logout-button" (click)="logout()">Wyloguj</a>
-    </div>
-    <div *ngIf="!isLoggedIn" class="sign-in d-inline logout-button-div">
-        <a class="btn btn-info logout-button" (click)="logIn()">Zaloguj się</a>
+    <a class="navbar-brand" routerLink="/">SimplyTube</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse navbar-content" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li *ngIf="this.user && this.user.role === 0">
+                <label class="nav-link" routerLink="/users">Użytkownicy</label>
+            </li>
+            <li *ngIf="this.user && this.user.role === 1">
+                <label class="nav-link" routerLink="/my-movies">Moje filmy</label>
+            </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Szukaj..." aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Szukaj</button>
+        </form>
+        <div *ngIf="isLoggedIn" class="mr-sm-2 log-button">
+            <a class="btn btn-info logout-button" (click)="logout()">Wyloguj</a>
+        </div>
+        <div *ngIf="!isLoggedIn" class="mr-sm-2 log-button">
+            <a class="btn btn-outline-info logout-button" (click)="logIn()">Zaloguj się</a>
+        </div>
     </div>
 </nav>

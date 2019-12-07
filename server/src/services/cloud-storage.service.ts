@@ -20,8 +20,18 @@ export class CloudStorageService {
 			Bucket: this.bucketName,
 			Key: key,
 			Body: body,
+			ContentType: 'video/mp4',
 		}
 
 		return new AWS.S3({ apiVersion: '2006-03-01' }).putObject(objectParams).promise()
+	}
+
+	async delete(key) {
+		const params = {
+			Bucket: this.bucketName,
+			Key: key,
+		}
+
+		return new AWS.S3({ apiVersion: '2006-03-01' }).deleteObject(params).promise()
 	}
 }

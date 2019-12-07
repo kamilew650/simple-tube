@@ -38,7 +38,7 @@ export class LoginService {
       if (userString) {
         const user = JSON.parse(userString)
         if (user) {
-          this.tokenValue = user;
+          this.user = user;
           return user;
         }
       }
@@ -79,10 +79,6 @@ export class LoginService {
       .post(`${url}/user/registration`, { userInput: registrationModel })
       .toPromise()
       .then(model => {
-        console.log(model);
-        this.user = model;
-        this.tokenValue = (model as any).access_token;
-        this.cookieService.set('access_token', this.tokenValue);
         return model;
       });
   }

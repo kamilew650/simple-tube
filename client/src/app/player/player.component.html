@@ -1,0 +1,32 @@
+<!-- <video *ngIf="movieUrl" width="800" controls controlsList="nodownload">
+    <source [src]="movieUrl" type="video/mp4">
+    Your browser does not support HTML5 video.
+</video> -->
+
+<div class="container player-background">
+    <div class="row">
+        <div class="col">
+        </div>
+        <div class="col-8 video-div">
+            <br />
+            <video *ngIf="movieUrl" width="740" margin="0" controls controlsList="nodownload">
+                <source [src]="movieUrl" type="video/mp4">
+                Your browser does not support HTML5 video.
+            </video>
+        </div>
+        <div class="col">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+        </div>
+        <div class="col-8">
+            <h2>{{movie.title}}</h2>
+            <div>
+                {{movie.description}}
+            </div>
+        </div>
+        <div class="col">
+        </div>
+    </div>
+</div>

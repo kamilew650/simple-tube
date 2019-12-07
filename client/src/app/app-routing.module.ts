@@ -6,6 +6,8 @@ import { LoginComponent } from './login/login.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { HomeComponent } from './home/home.component';
 import { MyMoviesComponent } from './my-movies/my-movies.component';
+import { PlayerComponent } from './player/player.component';
+import { UsersComponent } from './users/users.component';
 
 export const routes: Routes = [
   {
@@ -23,6 +25,14 @@ export const routes: Routes = [
   {
     path: 'my-movies',
     component: MyMoviesComponent
+  },
+  {
+    path: 'player/:id',
+    component: PlayerComponent
+  },
+  {
+    path: 'users',
+    component: UsersComponent
   },
 ];
 
