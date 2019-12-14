@@ -7,6 +7,7 @@ import { CloudStorageService } from '../../services/cloud-storage.service'
 import User from '../../db/entities/User'
 import * as uuid from 'uuid'
 import { throwError } from 'rxjs'
+import { UserRole } from '../../shared/RoleEnum'
 
 @Injectable()
 export class MovieService {
@@ -59,9 +60,21 @@ export class MovieService {
 		return this.movieModels.findOneAndUpdate({ _id: id }, { description: movieInput.description }, { new: true })
 	}
 
-	async delete(id: string) {
+	async delete(id: string, userId: string) {
 		try {
-			const movie = await this.movieModels.findById(id)
+			const user = await this.userModels.findById(userId)
+
+			if (!user) {
+				throw new UnauthorizedException()
+			}
+
+			const movie = await this.movieModels.findById(id).populate('user')
+			const userFromMovie = movie.user as User
+
+			if (user.role !== 0 && userFromMovie._id.localeCompare(userId) !== 0) {
+				throw new UnauthorizedException()
+			}
+
 			await this.cloudStorageService.delete(movie.videoToken)
 
 			return this.movieModels.findByIdAndRemove(id)

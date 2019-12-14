@@ -14,4 +14,6 @@ export default class Movie {
     pictureUrl: string
 
     uploadDate: Date
+
+    user: string
 }

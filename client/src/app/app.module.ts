@@ -18,6 +18,8 @@ import { MovieService } from './services/movie.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { PlayerComponent } from './player/player.component';
 import { UsersComponent } from './users/users.component';
+import { UserService } from './services/user.service';
+import { MoviesComponent } from './movies/movies.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +31,7 @@ import { UsersComponent } from './users/users.component';
     MyMoviesComponent,
     PlayerComponent,
     UsersComponent,
+    MoviesComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,7 +43,7 @@ import { UsersComponent } from './users/users.component';
     ReactiveFormsModule,
     FontAwesomeModule,
   ],
-  providers: [LoginService, CustomHttpService, CookieService, MovieService],
+  providers: [LoginService, CustomHttpService, CookieService, MovieService, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -6,7 +6,7 @@ import { FileInterceptor } from '@nestjs/platform-express'
 
 @Controller('movie')
 export class MovieController {
-	constructor(private readonly movieService: MovieService) {}
+	constructor(private readonly movieService: MovieService) { }
 
 	@Get('')
 	async find() {
@@ -34,7 +34,7 @@ export class MovieController {
 
 	@UseGuards(AuthGuard('jwt'))
 	@Delete('/:id')
-	async delete(@Param('id') id: string) {
-		return this.movieService.delete(id)
+	async delete(@Param('id') id: string, @Request() req) {
+		return this.movieService.delete(id, req.user ? req.user._id : '')
 	}
 }

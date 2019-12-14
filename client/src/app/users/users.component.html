@@ -10,8 +10,8 @@
                         <table id="dtBasicExample" class="table table-striped table-bordered">
                             <thead>
                                 <tr>
-                                    <th class="th">Id
-                                    </th>
+                                    <!-- <th class="th">Id
+                                    </th> -->
                                     <th class="th">Imię
                                     </th>
                                     <th class="th">Nazwisko
@@ -20,20 +20,21 @@
                                     </th>
                                     <th class="th">Rola
                                     </th>
-                                    <th class="th">Akcje
+                                    <th class="th delete">Akcje
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr *ngFor="let user of users">
-                                    <td>{{user.id}}</td>
+                                    <!-- <td>{{user._id}}</td> -->
                                     <td>{{user.firstName}}</td>
                                     <td>{{user.lastName}}</td>
-                                    <td>{{user.login}}</td>
+                                    <td>{{user.email}}</td>
                                     <td>{{getRoleName(user.role)}}</td>
-                                    <td>
-                                        <button class="btn btn-danger" (click)="deleteUser(user.id)"><i
-                                                class="fas fa-trash-alt"></i></button>
+                                    <td class="delete">
+                                        <button class="btn btn-danger" (click)="deleteUser(user._id)">
+                                            <fa-icon size='1x' [icon]="faTrashAlt"></fa-icon>
+                                        </button>
                                     </td>
                                 </tr>
                             </tbody>

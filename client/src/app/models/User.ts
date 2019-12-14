@@ -1,7 +1,7 @@
 import { RoleEnum } from './RoleEnum';
 
 export default class User {
-    id: number
+    _id: string
     firstName: string
     lastName: string
     login: string

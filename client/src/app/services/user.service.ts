@@ -1,23 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
-import { CustomHttpService } from './custom-http.service';
 import { CookieService } from 'ngx-cookie-service'
 import { LoginService } from './login.service';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
-import { RoleEnum } from '../models/RoleEnum';
 import { url } from '../congif';
 import Movie from '../models/Movie';
-import MovieForm from '../models/MovieForm';
 
 
 
 @Injectable()
-export class MovieService {
+export class UserService {
 
     constructor(
-        private httpService: CustomHttpService,
-        private router: Router,
         private cookieService: CookieService,
         private loginService: LoginService,
         private http: HttpClient
@@ -35,52 +28,26 @@ export class MovieService {
 
     get() {
         return this.http
-            .get(`${url}/movie`)
+            .get(`${url}/user`, { headers: this.getAuthHeader() })
             .toPromise()
-            .then((response) => {
-                const movies = response
-                return movies
-            })
-            .catch(error => {
-                console.error(error)
-            })
     }
 
 
     getOne(id: string) {
         return this.http
-            .get(`${url}/movie/${id}`, { headers: this.getAuthHeader() })
+            .get(`${url}/user/${id}`, { headers: this.getAuthHeader() })
             .toPromise()
     }
 
-    add(movie: MovieForm) {
-        const { file, ...movieInput } = movie
-        console.log(file)
-        const formData: FormData = new FormData();
-        formData.append('file', file)
-        formData.append('movieInput', JSON.stringify(movieInput))
-
+    update(movie: Movie) {
         return this.http
-            .post(`${url}/movie`, formData, { headers: this.getAuthHeader() })
+            .put(`${url}/user`, movie, { headers: this.getAuthHeader() })
             .toPromise()
-    }
-
-    update(id: string, movie: Movie) {
-        return this.http
-            .put(`${url}/movie`, movie, { headers: this.getAuthHeader() })
-            .toPromise()
-            .then((response: Response) => {
-                const movie = response.json()
-                return movie
-            })
-            .catch(error => {
-                console.error(error)
-            })
     }
 
     delete(id: string) {
         return this.http
-            .delete(`${url}/movie/${id}`, { headers: this.getAuthHeader() })
+            .delete(`${url}/user/${id}`, { headers: this.getAuthHeader() })
             .toPromise()
     }
 }

@@ -10,6 +10,9 @@
             <li *ngIf="this.user && this.user.role === 0">
                 <label class="nav-link" routerLink="/users">Użytkownicy</label>
             </li>
+            <li *ngIf="this.user && this.user.role === 0">
+                <label class="nav-link" routerLink="/movies">Filmy</label>
+            </li>
             <li *ngIf="this.user && this.user.role === 1">
                 <label class="nav-link" routerLink="/my-movies">Moje filmy</label>
             </li>
