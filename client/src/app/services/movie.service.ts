@@ -33,13 +33,6 @@ export class MovieService {
         return this.http
             .get(`${url}/movie`)
             .toPromise()
-            .then((response) => {
-                const movies = response
-                return movies
-            })
-            .catch(error => {
-                console.error(error)
-            })
     }
 
 
@@ -62,16 +55,11 @@ export class MovieService {
     }
 
     update(movie: Movie) {
+        const { title, description, _id } = movie
+
         return this.http
-            .put(`${url}/movie`, movie, { headers: this.getAuthHeader() })
+            .put(`${url}/movie`, { movieInput: { title, description, _id } }, { headers: this.getAuthHeader() })
             .toPromise()
-            .then((response: Response) => {
-                const movie = response.json()
-                return movie
-            })
-            .catch(error => {
-                console.error(error)
-            })
     }
 
     delete(id: string) {

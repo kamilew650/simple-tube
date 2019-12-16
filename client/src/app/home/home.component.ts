@@ -3,6 +3,7 @@ import { LoginService } from '../services/login.service';
 import { MovieService } from '../services/movie.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import Movie from '../models/Movie';
+import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-home',
@@ -10,6 +11,9 @@ import Movie from '../models/Movie';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+
+  faThumbsUp = faThumbsUp
+  faThumbsDown = faThumbsDown
 
   movies: Movie[]
 

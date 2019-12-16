@@ -20,7 +20,7 @@
     <div class="row">
         <div class="col">
         </div>
-        <div class="col-8">
+        <div *ngIf="movie" class="col-8">
             <h2>{{movie.title}}</h2>
             <div>
                 {{movie.description}}
@@ -30,3 +30,50 @@
         </div>
     </div>
 </div>
+
+<ng-template #content let-modal>
+    <div class="modal-header" *ngIf="step === 1">
+        <h4 class="modal-title" id="modal-basic-title">Dodaj komentarz</h4>
+        <button type="button" class="close" aria-label="Close" (click)="closeModal(modal)">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-header" *ngIf="step === 2">
+        <h4 class="modal-title" id="modal-basic-title">Edytuj komentarz</h4>
+        <button type="button" class="close" aria-label="Close" (click)="closeModal(modal)">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body" *ngIf="step === 1">
+        <form (ngSubmit)="onSubmit()">
+            <div class="form-group">
+                <label for="description">Treść</label>
+                <div class="input-group">
+                    <textarea [(ngModel)]="contentText" id="content" name="content" ngControl="content"
+                        #content="ngModel" required class="form-control" placeholder="Podaj treść..."
+                        rows="4"></textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-body" *ngIf="step === 2">
+        <form (ngSubmit)="onSubmit()">
+            <div class="form-group">
+                <label for="description">Treść</label>
+                <div class="input-group">
+                    <textarea [(ngModel)]="contentText" id="content" name="content" ngControl="content"
+                        #content="ngModel" required class="form-control" placeholder="Podaj treść..."
+                        rows="4"></textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer" *ngIf="step === 1">
+        <button type="button" class="btn btn-danger" (click)="closeModal(modal)">Anuluj</button>
+        <button type="button" class="btn btn-primary" (click)="addComment()">Dodaj</button>
+    </div>
+    <div class="modal-footer" *ngIf="step === 2">
+        <button type="button" class="btn btn-danger" (click)="closeModal(modal)">Anuluj</button>
+        <button type="button" class="btn btn-primary" (click)="editComment()">Edytuj</button>
+    </div>
+</ng-template>

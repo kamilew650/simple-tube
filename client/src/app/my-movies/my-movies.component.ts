@@ -17,10 +17,15 @@ export class MyMoviesComponent implements OnInit {
   faCommentDots = faCommentDots
   faEdit = faEdit
   faTrashAlt = faTrashAlt
+
   step: number
   title: string
   description: string
   movies: Movie[]
+
+  movieToEdit: Movie = null
+
+
 
   file: any
 
@@ -45,24 +50,57 @@ export class MyMoviesComponent implements OnInit {
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' })
   }
 
+  clear() {
+    this.title = null
+    this.description = null
+    this.file = null
+    this.movieToEdit = null
+  }
+
+  closeModal(modal: any) {
+    modal.close()
+    this.clear()
+  }
+
   openAddModal(content) {
+    this.clear()
     this.step = 1
     this.open(content)
   }
 
-  openEditModal(id: number, content) {
+  openEditModal(id: string, content) {
+    this.clear()
+
+    this.movieToEdit = this.movies.find(m => m._id.localeCompare(id) === 0)
+    this.title = this.movieToEdit.title
+    this.description = this.movieToEdit.description
+
     this.step = 2
     this.open(content)
   }
 
+  openDetailModal(id: string, content) {
+    this.clear()
+
+    this.movieToEdit = this.movies.find(m => m._id.localeCompare(id) === 0)
+    this.title = this.movieToEdit.title
+    this.description = this.movieToEdit.description
+
+    this.step = 3
+    this.open(content)
+  }
+
   addMovie() {
-    console.log(this.file)
+    if (!this.file) {
+      return
+    }
+
     this.movieService.add({
       description: this.description,
       title: this.title,
       file: this.file,
     }).then(res => {
-      console.log(res)
+      this.clear()
       this.modalService.dismissAll()
       this.movies.push(res as Movie)
     }).catch(err => {
@@ -70,6 +108,21 @@ export class MyMoviesComponent implements OnInit {
     })
   }
 
+  editMovie() {
+    this.movieToEdit.title = this.title
+    this.movieToEdit.description = this.description
+    this.movieService.update(this.movieToEdit).then(res => {
+      const updatedMovie = res as Movie
+      this.movies = this.movies.map(m => {
+        if (m._id.localeCompare(updatedMovie._id) === 0) {
+          return updatedMovie
+        }
+        return m
+      })
+      this.modalService.dismissAll()
+      this.clear()
+    })
+  }
 
   fileChanged($event) {
     const files = $event.target.files

@@ -1,4 +1,4 @@
 FROM mongo
 
-COPY ./mongo-init.js /docker-entrypoint-initdb.d
-COPY ./seed /seed
+# COPY ./mongo-init.js /docker-entrypoint-initdb.d
+# COPY ./seed /seed

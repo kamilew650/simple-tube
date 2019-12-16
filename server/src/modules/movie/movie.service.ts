@@ -18,7 +18,16 @@ export class MovieService {
 	) { }
 
 	async find() {
-		return this.movieModels.find()
+		const movies = await this.movieModels.find().populate('user')
+
+		return movies.map(m => {
+			const user = m.user as User
+			if (user) {
+				user.password = null
+				m.user = user
+			}
+			return m
+		})
 	}
 
 	async findOne(id: string) {
@@ -57,7 +66,7 @@ export class MovieService {
 	}
 
 	async update(id: string, movieInput: MovieInput) {
-		return this.movieModels.findOneAndUpdate({ _id: id }, { description: movieInput.description }, { new: true })
+		return this.movieModels.findOneAndUpdate({ _id: id }, { description: movieInput.description, title: movieInput.title }, { new: true })
 	}
 
 	async delete(id: string, userId: string) {

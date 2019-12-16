@@ -67,7 +67,9 @@ export class UserService {
 
 	async findOne(id: string): Promise<User | undefined> {
 		const user = await this.userModels.findById(id)
-		user.password = null
+		if (user) {
+			user.password = null
+		}
 		return user
 	}
 

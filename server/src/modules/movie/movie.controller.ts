@@ -27,9 +27,9 @@ export class MovieController {
 	}
 
 	@UseGuards(AuthGuard('jwt'))
-	@Put('/:id')
-	async update(@Param('id') id: string, @Body('movieInput') movieInput: MovieInput) {
-		return this.movieService.update(id, movieInput)
+	@Put('')
+	async update(@Body('movieInput') movieInput: MovieInput) {
+		return this.movieService.update(movieInput._id, movieInput)
 	}
 
 	@UseGuards(AuthGuard('jwt'))

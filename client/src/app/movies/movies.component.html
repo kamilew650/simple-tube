@@ -21,9 +21,9 @@
                                     </th>
                                     <th class="th">Awersje
                                     </th>
-                                    <th class="th">Szczegóły
+                                    <th class="th details">Szczegóły
                                     </th>
-                                    <th class="th">Usuń
+                                    <th class="th delete">Usuń
                                     </th>
                                 </tr>
                             </thead>
@@ -33,12 +33,12 @@
                                     <td>{{movie.uploadDate.substring(0,10)}}</td>
                                     <td>{{movie.likes}}</td>
                                     <td>{{movie.dislikes}}</td>
-                                    <td>
+                                    <td class="details">
                                         <button class="btn btn-info" (click)="openModal(movie._id, content)">
                                             <fa-icon [icon]="faCommentDots"></fa-icon>
                                         </button>
                                     </td>
-                                    <td>
+                                    <td class="delete">
                                         <button class="btn btn-danger" (click)="deleteMovie(movie._id)">
                                             <fa-icon [icon]="faTrashAlt"></fa-icon>
                                         </button>
@@ -65,7 +65,7 @@
         <br />
         <label><label class="bold">Imię użytkownika:</label> {{user.firstName}}</label>
         <br />
-        <label><label class="bold">Nazwisko użytkownika:</label> {{user.email}}</label>
+        <label><label class="bold">Nazwisko użytkownika:</label> {{user.lastName}}</label>
         <br />
         <label class="bold">Opis filmu:</label>
         <div>

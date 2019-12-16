@@ -12,7 +12,7 @@
                     <div *ngIf="!movies">
                         <h3>Brak filmów</h3>
                     </div>
-                    <div class="table-responsive-md">
+                    <div *ngIf="movies" class="table-responsive-md">
                         <table id="dtBasicExample" class="table table-striped table-bordered">
                             <thead>
                                 <tr>
@@ -24,11 +24,11 @@
                                     </th>
                                     <th class="th">Awersje
                                     </th>
-                                    <th class="th">Opis
+                                    <th class="th delete">Opis
                                     </th>
-                                    <th class="th">Edytuj
+                                    <th class="th delete">Edytuj
                                     </th>
-                                    <th class="th">Usuń
+                                    <th class="th delete">Usuń
                                     </th>
                                 </tr>
                             </thead>
@@ -38,17 +38,17 @@
                                     <td>{{movie.uploadDate.substring(0,10)}}</td>
                                     <td>{{movie.likes}}</td>
                                     <td>{{movie.dislikes}}</td>
-                                    <td>
-                                        <button class="btn btn-info" (click)="openEditModal(user.id, content)">
+                                    <td class="delete">
+                                        <button class="btn btn-info" (click)="openDetailModal(movie._id, content)">
                                             <fa-icon [icon]="faCommentDots"></fa-icon>
                                         </button>
                                     </td>
-                                    <td>
-                                        <button class="btn btn-warning" (click)="openEditModal(user.id, content)">
+                                    <td class="delete">
+                                        <button class="btn btn-warning" (click)="openEditModal(movie._id, content)">
                                             <fa-icon [icon]="faEdit"></fa-icon>
                                         </button>
                                     </td>
-                                    <td>
+                                    <td class="delete">
                                         <button class="btn btn-danger" (click)="deleteMovie(movie._id)">
                                             <fa-icon [icon]="faTrashAlt"></fa-icon>
                                         </button>
@@ -65,14 +65,20 @@
 
 <ng-template #content let-modal>
     <div class="modal-header" *ngIf="step === 1">
-        <h4 class="modal-title" id="modal-basic-title">Dodaj użytkownika</h4>
-        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <h4 class="modal-title" id="modal-basic-title">Dodaj film</h4>
+        <button type="button" class="close" aria-label="Close" (click)="closeModal(modal)">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
     <div class="modal-header" *ngIf="step === 2">
-        <h4 class="modal-title" id="modal-basic-title">Edytuj użytkownika</h4>
-        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <h4 class="modal-title" id="modal-basic-title">Edytuj film</h4>
+        <button type="button" class="close" aria-label="Close" (click)="closeModal(modal)">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-header" *ngIf="step === 3">
+        <h4 class="modal-title" id="modal-basic-title">Szczegóły</h4>
+        <button type="button" class="close" aria-label="Close" (click)="closeModal(modal)">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
@@ -88,11 +94,9 @@
             <div class="form-group">
                 <label for="description">Opis</label>
                 <div class="input-group">
-                    <!-- <input [(ngModel)]="description" id="description" name="description" ngControl="description"
-                        #descriptionText="ngModel" required class="form-control" placeholder="Podaj opis..."> -->
                     <textarea [(ngModel)]="description" id="description" name="description" ngControl="description"
                         #descriptionText="ngModel" required class="form-control" placeholder="Podaj opis..."
-                        rows="3"></textarea>
+                        rows="4"></textarea>
                 </div>
             </div>
             <div class="form-group">
@@ -104,60 +108,44 @@
             </div>
         </form>
     </div>
-    <!-- <div class="modal-body" *ngIf="step === 2">
+    <div class="modal-body" *ngIf="step === 2">
         <form (ngSubmit)="onSubmit()">
             <div class="form-group">
-                <label for="dateOfBirth">Imię</label>
+                <label for="title">Tytuł</label>
                 <div class="input-group">
-                    <input [(ngModel)]="selectedUser.firstName" id="firstName" name="firstName" ngControl="firstName"
-                        #firstName="ngModel" required class="form-control" placeholder="Podaj imię...">
+                    <input [(ngModel)]="title" id="title" name="title" ngControl="title" #titleText="ngModel" required
+                        class="form-control" placeholder="Podaj tytuł...">
                 </div>
             </div>
             <div class="form-group">
-                <label for="dateOfBirth">Nazwisko</label>
+                <label for="description">Opis</label>
                 <div class="input-group">
-                    <input [(ngModel)]="selectedUser.lastName" id="lastName" name="lastName" ngControl="lastName"
-                        #lastName="ngModel" required class="form-control" placeholder="Podaj nazwisko...">
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="dateOfBirth">Login</label>
-                <div class="input-group">
-                    <input [(ngModel)]="selectedUser.login" id="firstName" name="login" ngControl="login"
-                        #login="ngModel" required class="form-control" placeholder="Podaj login...">
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="role">Rola</label>
-                <select class="form-control" [(ngModel)]="selectedUser.role" id="firstName" name="login"
-                    ngControl="login" #login="ngModel" required>
-                    <option *ngFor="let role of roles" [value]="role.value">{{role.title}}</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="dateOfBirth">Hasło</label>
-                <div class="input-group">
-                    <input [(ngModel)]="selectedUser.password" type='password' id="password" name="password"
-                        ngControl="password" #password="ngModel" required class="form-control"
-                        placeholder="Podaj hasło...">
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="dateOfBirth">Powtórz hasło</label>
-                <div class="input-group">
-                    <input [(ngModel)]="passwordAgain" id="passwordAgain" type='password' name="passwordAgain"
-                        ngControl="passwordAgain" #passwordAgainVal="ngModel" required class="form-control"
-                        placeholder="Powtórz hasło...">
+                    <textarea [(ngModel)]="description" id="description" name="description" ngControl="description"
+                        #descriptionText="ngModel" required class="form-control" placeholder="Podaj opis..."
+                        rows="4"></textarea>
                 </div>
             </div>
         </form>
-    </div> -->
+    </div>
+    <div class="modal-body" *ngIf="step === 3">
+        <div class="form-group">
+            <label for="description">Opis</label>
+            <div class="input-group">
+                <textarea disabled [(ngModel)]="description" id="description" name="description" ngControl="description"
+                    #descriptionText="ngModel" required class="form-control" placeholder="Podaj opis..."
+                    rows="4"></textarea>
+            </div>
+        </div>
+    </div>
     <div class="modal-footer" *ngIf="step === 1">
-        <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">Anuluj</button>
+        <button type="button" class="btn btn-danger" (click)="closeModal(modal)">Anuluj</button>
         <button type="button" class="btn btn-primary" (click)="addMovie()">Dodaj</button>
     </div>
     <div class="modal-footer" *ngIf="step === 2">
-        <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">Anuluj</button>
+        <button type="button" class="btn btn-danger" (click)="closeModal(modal)">Anuluj</button>
         <button type="button" class="btn btn-primary" (click)="editMovie()">Edytuj</button>
+    </div>
+    <div class="modal-footer" *ngIf="step === 3">
+        <button type="button" class="btn btn-danger" (click)="closeModal(modal)">Ok</button>
     </div>
 </ng-template>
