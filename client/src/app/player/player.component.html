@@ -9,7 +9,7 @@
         </div>
         <div class="col-8 video-div">
             <br />
-            <video *ngIf="movieUrl" width="740" margin="0" controls controlsList="nodownload">
+            <video *ngIf="movieUrl" style="width:100%" margin="0" controls controlsList="nodownload">
                 <source [src]="movieUrl" type="video/mp4">
                 Your browser does not support HTML5 video.
             </video>
@@ -20,16 +20,139 @@
     <div class="row">
         <div class="col">
         </div>
-        <div *ngIf="movie" class="col-8">
-            <h2>{{movie.title}}</h2>
-            <div>
-                {{movie.description}}
+        <div *ngIf="movie" class="col-8 ">
+            <div class="list-group-item">
+                <div class="row title">
+                    <div class="col">
+                        <h2>{{movie.title}}</h2>
+                    </div>
+                    <div *ngIf="!isLoggedIn" class="col right">
+                        <fa-icon [icon]="faThumbsUp"></fa-icon>
+                        {{movie.likes}}:{{movie.likes}}
+                        <fa-icon [icon]="faThumbsDown"></fa-icon>
+                    </div>
+                    <div *ngIf="isLoggedIn" class="col right">
+                        <button class="btn btn-secondary">
+                            <fa-icon [icon]="faThumbsUp"></fa-icon>
+                        </button>
+                        {{movie.likes}}:{{movie.likes}}
+                        <button class="btn btn-secondary">
+                            <fa-icon [icon]="faThumbsDown"></fa-icon>
+                        </button>
+                    </div>
+                </div>
+                <div class="row title">
+                    <div class="col">
+                        <div>
+                            {{movie.description}}
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="row user title">
+                    <div class="col">
+                        Użytkownik: {{movie.user.firstName}} {{movie.user.lastName}}
+                    </div>
+                    <div class="col right">
+                        Dodano: {{movie.uploadDate.substring(0,10)}}
+                    </div>
+                </div>
             </div>
         </div>
         <div class="col">
         </div>
     </div>
+    <br />
+    <div class="row">
+        <div class="col">
+        </div>
+        <div class="col-8">
+            <div class="add-button-div">
+                <button *ngIf="isLoggedIn" class="btn btn-primary" (click)="openAddModal(content)">Dodaj
+                    komentarz</button>
+            </div>
+        </div>
+        <div class="col">
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col">
+        </div>
+        <div class="col-8">
+            <div class="add-button-div">
+                <h3>Komentarze:</h3>
+            </div>
+        </div>
+        <div class="col">
+        </div>
+    </div>
+    <div *ngIf="comments" class="row">
+        <div class="col">
+        </div>
+        <div class="col-8">
+            <div class="list-group">
+                <label *ngFor="let comment of pageOfItems" class="list-group-item">
+                    <div class="row">
+                        <div class="content">{{comment.content}}</div>
+                    </div>
+                    <br />
+                    <div class="row user">
+                        <div class="col">
+                        </div>
+                        <div class="col right">
+                            <label class="btn btn-warning btn-sm" (click)="openEditModal(comment._id, content)">Edytuj
+                            </label>
+                            <label class="btn btn-danger btn-sm delete" (click)="delete(comment._id)">Usuń
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row user">
+                        <div class="col">
+                            Użytkownik: {{comment.user.firstName}} {{comment.user.lastName}}
+                        </div>
+                        <div class="col right">
+                            Dodano: {{comment.date.substring(0,10)}}
+                        </div>
+                    </div>
+                </label>
+            </div>
+        </div>
+        <div class="col">
+        </div>
+    </div>
+    <div *ngIf="comments" class="row">
+        <div class="col">
+        </div>
+        <div class="col-8 center">
+            <div *ngIf="comments" class="row">
+                <div class="col">
+                </div>
+                <div class="col">
+                    <div class=" pb-0 pt-3 center">
+                        <jw-pagination [items]="comments" (changePage)="onChangePage($event)">
+                        </jw-pagination>
+                    </div>
+                </div>
+                <div class="col">
+                </div>
+            </div>
+        </div>
+        <div class="col">
+        </div>
+    </div>
+    <div *ngIf="comments && comments.length === 0" class="row">
+        <div class="col">
+        </div>
+        <div class="col-8 lack-comments">
+            <h4>Brak komentarzy</h4>
+        </div>
+        <div class="col">
+        </div>
+    </div>
 </div>
+<br />
+<div class='footer'></div>
 
 <ng-template #content let-modal>
     <div class="modal-header" *ngIf="step === 1">

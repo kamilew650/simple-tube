@@ -6,6 +6,10 @@ import { LoginService } from '../services/login.service';
 import User from '../models/User';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormControl, Validators, FormGroup } from '@angular/forms';
+import { CommentService } from '../services/comment.service';
+import Comment from '../models/Comment';
+import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
+
 
 @Component({
   selector: 'app-player',
@@ -14,14 +18,22 @@ import { FormBuilder, FormControl, Validators, FormGroup } from '@angular/forms'
 })
 export class PlayerComponent implements OnInit {
 
+  faThumbsUp = faThumbsUp
+  faThumbsDown = faThumbsDown
+
+  items = [];
+  pageOfItems: Array<any>;
+
   user: User = null
-  isLogedIn = false
+  isLoggedIn = false
   movieId: string
 
   step: number = null
 
+  comments: Comment[]
   comment: Comment = null
   content: string = null
+  contentText: string = null
 
   movie: Movie
   movieUrl: string
@@ -32,11 +44,12 @@ export class PlayerComponent implements OnInit {
     private movieService: MovieService,
     private loginService: LoginService,
     private modalService: NgbModal,
+    private commentService: CommentService,
   ) { }
 
   ngOnInit() {
-    this.isLogedIn = this.loginService.isLoggedIn
-    if (this.isLogedIn) {
+    this.isLoggedIn = this.loginService.isLoggedIn
+    if (this.isLoggedIn) {
       this.user = this.loginService.loggedUser
     }
 
@@ -50,6 +63,9 @@ export class PlayerComponent implements OnInit {
       this.movieService.getOne(this.movieId).then(res => {
         this.movie = res as Movie
         this.movieUrl = `https://simpletube.s3.eu-central-1.amazonaws.com/${this.movie.videoToken}`
+        this.commentService.get(this.movie._id).then(res => {
+          this.comments = res as Comment[]
+        })
       })
     })
   }
@@ -68,60 +84,60 @@ export class PlayerComponent implements OnInit {
     this.clear()
   }
 
+  openAddModal(content) {
+    this.clear()
+
+    this.step = 1
+    this.open(content)
+  }
+
   openEditModal(id: string, content) {
     this.clear()
 
-    // this.movieToEdit = this.movies.find(m => m._id.localeCompare(id) === 0)
-    // this.title = this.movieToEdit.title
-    // this.description = this.movieToEdit.description
+    this.comment = this.comments.find(c => c._id.localeCompare(id) === 0)
+
+    this.contentText = this.comment.content
 
     this.step = 2
     this.open(content)
   }
 
-  openDetailModal(id: string, content) {
-    this.clear()
-
-    // this.movieToEdit = this.movies.find(m => m._id.localeCompare(id) === 0)
-    // this.title = this.movieToEdit.title
-    // this.description = this.movieToEdit.description
-
-    this.step = 3
-    this.open(content)
+  addComment() {
+    this.commentService.add({
+      content: this.contentText,
+      movieId: this.movie._id,
+    }).then(res => {
+      console.log(res)
+      this.clear()
+      this.comments.unshift(res as Comment)
+      this.modalService.dismissAll()
+    }).catch(err => {
+      console.log(err)
+    })
   }
 
-  addMovie() {
-    // if (!this.file) {
-    //   return
-    // }
+  editComment() {
+    const commentToEdit = { ...(this.comment) } as Comment
 
-    // this.movieService.add({
-    //   description: this.description,
-    //   title: this.title,
-    //   file: this.file,
-    // }).then(res => {
-    //   this.clear()
-    //   this.modalService.dismissAll()
-    //   this.movies.push(res as Movie)
-    // }).catch(err => {
-    //   console.log(err)
-    // })
+    commentToEdit.content = this.contentText
+
+    this.commentService.update(commentToEdit).then(res => {
+      const updatedComment = res as Comment
+      this.clear()
+      this.comments = this.comments.map(c => c._id.localeCompare(updatedComment._id) === 0 ? updatedComment : c)
+      this.modalService.dismissAll()
+    }).catch(err => {
+      console.log(err)
+    })
   }
 
-  editMovie() {
-    // this.movieToEdit.title = this.title
-    // this.movieToEdit.description = this.description
-    // this.movieService.update(this.movieToEdit).then(res => {
-    //   const updatedMovie = res as Movie
-    //   this.movies = this.movies.map(m => {
-    //     if (m._id.localeCompare(updatedMovie._id) === 0) {
-    //       return updatedMovie
-    //     }
-    //     return m
-    //   })
-    //   this.modalService.dismissAll()
-    //   this.clear()
-    // })
+  delete(id: string) {
+    this.commentService.delete(id).then(() => {
+      this.comments = this.comments.filter(c => c._id.localeCompare(id) !== 0)
+    })
   }
 
+  onChangePage(pageOfItems: Array<any>) {
+    this.pageOfItems = pageOfItems;
+  }
 }

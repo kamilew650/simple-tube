@@ -7,7 +7,7 @@
             <h3>Dostępne filmy</h3>
             <br />
             <div class="list-group">
-                <a *ngFor="let movie of movies" routerLink="/player/{{movie._id}}"
+                <a *ngFor="let movie of pageOfItems" routerLink="/player/{{movie._id}}"
                     class="list-group-item list-group-item-action">
                     <div class="row">
                         <div class="col">{{movie.title}}</div>
@@ -20,6 +20,26 @@
                         </div>
                     </div>
                 </a>
+            </div>
+        </div>
+        <div class="col">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+        </div>
+        <div class="col-8">
+            <div *ngIf="movies" class="row">
+                <div class="col">
+                </div>
+                <div class="col">
+                    <div class=" pb-0 pt-3 center">
+                        <jw-pagination [items]="movies" (changePage)="onChangePage($event)">
+                        </jw-pagination>
+                    </div>
+                </div>
+                <div class="col">
+                </div>
             </div>
         </div>
         <div class="col">

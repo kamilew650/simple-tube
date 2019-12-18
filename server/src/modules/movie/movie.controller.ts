@@ -13,6 +13,11 @@ export class MovieController {
 		return this.movieService.find()
 	}
 
+	@Get('/new')
+	async findNew() {
+		return this.movieService.findNew()
+	}
+
 	@Get('/:id')
 	async findOne(@Param('id') id: string) {
 		return this.movieService.findOne(id)

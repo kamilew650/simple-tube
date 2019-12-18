@@ -7,11 +7,13 @@ import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { url } from '../congif';
 import Movie from '../models/Movie';
 import MovieForm from '../models/MovieForm';
+import CommentForm from '../models/CommentForm';
+import Comment from '../models/Comment';
 
 
 
 @Injectable()
-export class MovieService {
+export class CommentService {
 
     constructor(
         private cookieService: CookieService,
@@ -29,48 +31,37 @@ export class MovieService {
     }
 
 
-    get() {
+    get(movieId) {
         return this.http
-            .get(`${url}/movie`)
-            .toPromise()
-    }
-
-    getNew() {
-        return this.http
-            .get(`${url}/movie/new`)
+            .get(`${url}/comment`, { params: { movieId } })
             .toPromise()
     }
 
 
     getOne(id: string) {
         return this.http
-            .get(`${url}/movie/${id}`, { headers: this.getAuthHeader() })
+            .get(`${url}/comment/${id}`, { headers: this.getAuthHeader() })
             .toPromise()
     }
 
-    add(movie: MovieForm) {
-        const { file, ...movieInput } = movie
-        console.log(file)
-        const formData: FormData = new FormData();
-        formData.append('file', file)
-        formData.append('movieInput', JSON.stringify(movieInput))
-
+    add(commentForm: CommentForm) {
         return this.http
-            .post(`${url}/movie`, formData, { headers: this.getAuthHeader() })
+            .post(`${url}/comment`, { commentInput: { ...commentForm } }, { headers: this.getAuthHeader() })
             .toPromise()
     }
 
-    update(movie: Movie) {
-        const { title, description, _id } = movie
+    update(comment: Comment) {
 
         return this.http
-            .put(`${url}/movie`, { movieInput: { title, description, _id } }, { headers: this.getAuthHeader() })
+            .put(`${url}/comment`, {
+                commentInput: { movieId: comment.movie, content: comment.content, _id: comment._id }
+            }, { headers: this.getAuthHeader() })
             .toPromise()
     }
 
     delete(id: string) {
         return this.http
-            .delete(`${url}/movie/${id}`, { headers: this.getAuthHeader() })
+            .delete(`${url}/comment/${id}`, { headers: this.getAuthHeader() })
             .toPromise()
     }
 }

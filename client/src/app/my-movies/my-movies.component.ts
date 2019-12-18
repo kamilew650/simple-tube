@@ -18,6 +18,9 @@ export class MyMoviesComponent implements OnInit {
   faEdit = faEdit
   faTrashAlt = faTrashAlt
 
+  items = [];
+  pageOfItems: Array<any>;
+
   step: number
   title: string
   description: string
@@ -41,7 +44,7 @@ export class MyMoviesComponent implements OnInit {
     if (!this.loginService.isLoggedIn || (!this.loginService.loggedUser && this.loginService.loggedUser.role !== 1)) {
       this.router.navigateByUrl('/');
     }
-    this.movieService.get().then(res => {
+    this.movieService.getNew().then(res => {
       this.movies = res as Movie[]
     })
   }
@@ -135,5 +138,9 @@ export class MyMoviesComponent implements OnInit {
     this.movieService.delete(id).then(res => {
       this.movies = this.movies.filter(m => m._id.localeCompare(id) !== 0)
     })
+  }
+
+  onChangePage(pageOfItems: Array<any>) {
+    this.pageOfItems = pageOfItems;
   }
 }

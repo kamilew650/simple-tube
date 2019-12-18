@@ -1,15 +1,15 @@
-import { Controller, Put, Delete, Post, Body, Get, Param, HttpCode, UseGuards, Req } from '@nestjs/common'
+import { Controller, Put, Delete, Post, Body, Get, Param, HttpCode, UseGuards, Req, Query } from '@nestjs/common'
 import CommentInput from './dto/Comment.input'
 import { CommentService } from './comment.service'
 import { AuthGuard } from '@nestjs/passport'
 
 @Controller('comment')
 export class CommentController {
-	constructor(private readonly commentService: CommentService) {}
+	constructor(private readonly commentService: CommentService) { }
 
 	@Get('')
-	async find() {
-		return this.commentService.find()
+	async find(@Query('movieId') movieId: string) {
+		return this.commentService.find(movieId)
 	}
 
 	@Get('/:id')
@@ -24,9 +24,9 @@ export class CommentController {
 	}
 
 	@UseGuards(AuthGuard('jwt'))
-	@Put('/:id')
-	async update(@Param('id') id: string, @Body('commentInput') commentInput: CommentInput) {
-		return this.commentService.update(id, commentInput)
+	@Put('/')
+	async update(@Body('commentInput') commentInput: CommentInput) {
+		return this.commentService.update(commentInput._id, commentInput)
 	}
 
 	@UseGuards(AuthGuard('jwt'))

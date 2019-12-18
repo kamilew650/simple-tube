@@ -20,6 +20,8 @@ import { PlayerComponent } from './player/player.component';
 import { UsersComponent } from './users/users.component';
 import { UserService } from './services/user.service';
 import { MoviesComponent } from './movies/movies.component';
+import { CommentService } from './services/comment.service';
+import { JwPaginationComponent } from 'jw-angular-pagination';
 
 @NgModule({
   declarations: [
@@ -32,6 +34,7 @@ import { MoviesComponent } from './movies/movies.component';
     PlayerComponent,
     UsersComponent,
     MoviesComponent,
+    JwPaginationComponent,
   ],
   imports: [
     BrowserModule,
@@ -43,7 +46,7 @@ import { MoviesComponent } from './movies/movies.component';
     ReactiveFormsModule,
     FontAwesomeModule,
   ],
-  providers: [LoginService, CustomHttpService, CookieService, MovieService, UserService],
+  providers: [LoginService, CustomHttpService, CookieService, MovieService, UserService, CommentService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -12,10 +12,10 @@ export class CommentService {
 		@InjectModel(Comment) private readonly commentModels: ModelType<Comment>, //
 		@InjectModel(User) private readonly userModels: ModelType<User>,
 		@InjectModel(Movie) private readonly movieModels: ModelType<Movie>,
-	) {}
+	) { }
 
-	async find() {
-		return this.commentModels.find()
+	async find(movieId: string) {
+		return this.commentModels.find({ movie: movieId }).sort({ date: -1 }).populate('user')
 	}
 
 	async findOne(id: string) {
@@ -24,7 +24,7 @@ export class CommentService {
 
 	async create(commentInput: CommentInput, userId: string) {
 		const comment = CommentInput.toEntity(commentInput)
-		comment.date = commentInput.date
+		comment.date = new Date()
 		comment.user = await this.userModels.findById(userId)
 
 		if (!comment.user) {

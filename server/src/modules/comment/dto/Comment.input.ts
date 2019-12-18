@@ -2,14 +2,13 @@ import { IsNotEmpty, IsDateString } from 'class-validator'
 import Comment from '../../../db/entities/Comment'
 
 export default class CommentInput {
+	_id?: string
+
 	@IsNotEmpty()
 	movieId: string
 
 	@IsNotEmpty()
 	content: string
-
-	@IsDateString()
-	date: Date
 
 	static toEntity(commentInput: CommentInput): Comment {
 		const comment = new Comment()

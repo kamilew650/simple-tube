@@ -15,6 +15,9 @@ export class HomeComponent implements OnInit {
   faThumbsUp = faThumbsUp
   faThumbsDown = faThumbsDown
 
+  items = [];
+  pageOfItems: Array<any>;
+
   movies: Movie[]
 
   constructor(
@@ -25,9 +28,12 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.movieService.get().then(res => {
+    this.movieService.getNew().then(res => {
       this.movies = res as Movie[]
     })
   }
 
+  onChangePage(pageOfItems: Array<any>) {
+    this.pageOfItems = pageOfItems;
+  }
 }

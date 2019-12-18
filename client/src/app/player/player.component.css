@@ -6,3 +6,37 @@
     /* background-color: #DCDCDC; */
     margin-top: 15 px;
 }
+
+.user {
+    font-size: 12px;
+}
+
+.right {
+    text-align: right;
+}
+
+.content {
+    margin: 10px;
+}
+
+.footer {
+    min-height: 50px;
+    background: #fff;
+}
+
+.lack-comments {
+    text-align: center;
+}
+
+.delete {
+    margin-left: 10px;
+}
+
+.title {
+    margin: 10px;
+}
+
+.center {
+    align-content: center;
+    text-align: center;
+}

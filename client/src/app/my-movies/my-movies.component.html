@@ -18,11 +18,11 @@
                                 <tr>
                                     <th class="th">Tytuł
                                     </th>
-                                    <th class="th">Data dodania
+                                    <th class="th details">Data dodania
                                     </th>
-                                    <th class="th">Polubienia
+                                    <th class="th delete">Polubienia
                                     </th>
-                                    <th class="th">Awersje
+                                    <th class="th delete">Awersje
                                     </th>
                                     <th class="th delete">Opis
                                     </th>
@@ -33,11 +33,11 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let movie of movies">
+                                <tr *ngFor="let movie of pageOfItems">
                                     <td>{{movie.title}}</td>
-                                    <td>{{movie.uploadDate.substring(0,10)}}</td>
-                                    <td>{{movie.likes}}</td>
-                                    <td>{{movie.dislikes}}</td>
+                                    <td class="details">{{movie.uploadDate.substring(0,10)}}</td>
+                                    <td class="delete">{{movie.likes}}</td>
+                                    <td class="delete">{{movie.dislikes}}</td>
                                     <td class="delete">
                                         <button class="btn btn-info" (click)="openDetailModal(movie._id, content)">
                                             <fa-icon [icon]="faCommentDots"></fa-icon>
@@ -56,6 +56,26 @@
                                 </tr>
                             </tbody>
                         </table>
+                    </div>
+                    <div *ngIf="movies" class="row">
+                        <div class="col">
+                        </div>
+                        <div class="col-8 center">
+                            <div *ngIf="movies" class="row">
+                                <div class="col">
+                                </div>
+                                <div class="col">
+                                    <div class=" pb-0 pt-3 center">
+                                        <jw-pagination [items]="movies" (changePage)="onChangePage($event)">
+                                        </jw-pagination>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                        </div>
                     </div>
                 </div>
             </div>
