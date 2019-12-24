@@ -18,6 +18,9 @@ export class UsersComponent implements OnInit {
   faTrashAlt = faTrashAlt
   user: User
 
+  items = [];
+  pageOfItems: Array<any>;
+
   constructor(
     private readonly loginService: LoginService,
     private readonly userService: UserService,
@@ -29,7 +32,7 @@ export class UsersComponent implements OnInit {
   ngOnInit() {
     this.user = this.loginService.loggedUser
     console.log(this.user)
-    if (this.user.role !== 0) {
+    if (!this.user || this.user && this.user.role !== 0) {
       this.router.navigateByUrl('/')
     }
     this.userService.get().then(users => {
@@ -61,4 +64,7 @@ export class UsersComponent implements OnInit {
     }
   }
 
+  onChangePage(pageOfItems: Array<any>) {
+    this.pageOfItems = pageOfItems;
+  }
 }

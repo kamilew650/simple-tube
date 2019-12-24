@@ -18,6 +18,11 @@ export class MovieController {
 		return this.movieService.findNew()
 	}
 
+	@Get('/new/:userId')
+	async findNewForUser(@Param('userId') userId: string) {
+		return this.movieService.findNewForUser(userId)
+	}
+
 	@Get('/:id')
 	async findOne(@Param('id') id: string) {
 		return this.movieService.findOne(id)

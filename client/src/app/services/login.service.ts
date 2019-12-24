@@ -84,6 +84,7 @@ export class LoginService {
   }
 
   logout() {
+    this.loggedUserData = null
     this.user = null;
     this.tokenValue = null;
     this.cookieService.deleteAll();

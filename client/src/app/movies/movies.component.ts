@@ -28,6 +28,9 @@ export class MoviesComponent implements OnInit {
   user: User = null
   movie: Movie = null
 
+  items = [];
+  pageOfItems: Array<any>;
+
   file: any
 
   constructor(
@@ -55,7 +58,8 @@ export class MoviesComponent implements OnInit {
   openModal(id: string, content) {
     this.movie = this.movies.find(m => m._id.localeCompare(id) === 0)
     if (this.movie) {
-      this.userService.getOne(this.movie.user).then(res => {
+      const user = this.movie.user as unknown as User
+      this.userService.getOne(user._id).then(res => {
         this.user = res as User
         this.open(content)
       })
@@ -66,5 +70,9 @@ export class MoviesComponent implements OnInit {
     this.movieService.delete(id).then(res => {
       this.movies = this.movies.filter(m => m._id.localeCompare(id) !== 0)
     })
+  }
+
+  onChangePage(pageOfItems: Array<any>) {
+    this.pageOfItems = pageOfItems;
   }
 }

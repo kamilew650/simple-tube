@@ -51,6 +51,7 @@ export class PlayerComponent implements OnInit {
     this.isLoggedIn = this.loginService.isLoggedIn
     if (this.isLoggedIn) {
       this.user = this.loginService.loggedUser
+      console.log(this.user)
     }
 
     this.route.params.subscribe(params => {
@@ -65,6 +66,7 @@ export class PlayerComponent implements OnInit {
         this.movieUrl = `https://simpletube.s3.eu-central-1.amazonaws.com/${this.movie.videoToken}`
         this.commentService.get(this.movie._id).then(res => {
           this.comments = res as Comment[]
+          console.log(this.comments)
         })
       })
     })
@@ -109,7 +111,9 @@ export class PlayerComponent implements OnInit {
     }).then(res => {
       console.log(res)
       this.clear()
-      this.comments.unshift(res as Comment)
+      this.commentService.get(this.movie._id).then(res2 => {
+        this.comments = res2 as Comment[]
+      })
       this.modalService.dismissAll()
     }).catch(err => {
       console.log(err)

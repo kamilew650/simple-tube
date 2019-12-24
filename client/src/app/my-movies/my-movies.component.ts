@@ -44,7 +44,7 @@ export class MyMoviesComponent implements OnInit {
     if (!this.loginService.isLoggedIn || (!this.loginService.loggedUser && this.loginService.loggedUser.role !== 1)) {
       this.router.navigateByUrl('/');
     }
-    this.movieService.getNew().then(res => {
+    this.movieService.getNewForUser(this.loginService.loggedUser._id).then(res => {
       this.movies = res as Movie[]
     })
   }
@@ -105,7 +105,9 @@ export class MyMoviesComponent implements OnInit {
     }).then(res => {
       this.clear()
       this.modalService.dismissAll()
-      this.movies.push(res as Movie)
+      this.movieService.getNew().then(res2 => {
+        this.movies = res2 as Movie[]
+      })
     }).catch(err => {
       console.log(err)
     })

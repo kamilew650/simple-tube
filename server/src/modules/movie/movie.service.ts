@@ -31,7 +31,20 @@ export class MovieService {
 	}
 
 	async findNew() {
-		const movies = await this.movieModels.find().sort({uploadDate: -1}).populate('user')
+		const movies = await this.movieModels.find().sort({ uploadDate: -1 }).populate('user')
+
+		return movies.map(m => {
+			const user = m.user as User
+			if (user) {
+				user.password = null
+				m.user = user
+			}
+			return m
+		})
+	}
+
+	async findNewForUser(userId: string) {
+		const movies = await this.movieModels.find({ userId: userId }).sort({ uploadDate: -1 }).populate('user')
 
 		return movies.map(m => {
 			const user = m.user as User

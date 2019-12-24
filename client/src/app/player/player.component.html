@@ -100,8 +100,10 @@
                     <div class="row user">
                         <div class="col">
                         </div>
-                        <div class="col right">
-                            <label class="btn btn-warning btn-sm" (click)="openEditModal(comment._id, content)">Edytuj
+                        <div *ngIf="user && user._id.localeCompare(comment.user._id) === 0 || user && user.role === 0"
+                            class="col right">
+                            <label *ngIf="user && user.role !== 0" class="btn btn-warning btn-sm"
+                                (click)="openEditModal(comment._id, content)">Edytuj
                             </label>
                             <label class="btn btn-danger btn-sm delete" (click)="delete(comment._id)">Usuń
                             </label>

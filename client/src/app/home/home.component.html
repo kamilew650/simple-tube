@@ -10,9 +10,9 @@
                 <a *ngFor="let movie of pageOfItems" routerLink="/player/{{movie._id}}"
                     class="list-group-item list-group-item-action">
                     <div class="row">
-                        <div class="col">{{movie.title}}</div>
-                        <div class="col-4">Autor: {{movie.user.firstName}}</div>
-                        <div class="col-3">Dodane: {{movie.uploadDate.substring(0,10)}}</div>
+                        <div class="col-3">{{movie.title}}</div>
+                        <div class="col-3">Autor: {{movie.user.firstName}}</div>
+                        <div class="col-4">Dodane: {{movie.uploadDate.substring(0,10)}}</div>
                         <div class="col">
                             <fa-icon [icon]="faThumbsUp"></fa-icon>
                             {{movie.likes}}:{{movie.likes}}

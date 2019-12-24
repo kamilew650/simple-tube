@@ -41,6 +41,11 @@ export class MovieService {
             .toPromise()
     }
 
+    getNewForUser(userId: string) {
+        return this.http
+            .get(`${url}/movie/new/${userId}`, { headers: this.getAuthHeader() })
+            .toPromise()
+    }
 
     getOne(id: string) {
         return this.http

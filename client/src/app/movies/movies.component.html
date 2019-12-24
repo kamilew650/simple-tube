@@ -28,7 +28,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let movie of movies">
+                                <tr *ngFor="let movie of pageOfItems">
                                     <td>{{movie.title}}</td>
                                     <td>{{movie.uploadDate.substring(0,10)}}</td>
                                     <td>{{movie.likes}}</td>
@@ -49,6 +49,26 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+    <div *ngIf="movies" class="row">
+        <div class="col">
+        </div>
+        <div class="col-8 center">
+            <div *ngIf="movies" class="row">
+                <div class="col">
+                </div>
+                <div class="col">
+                    <div class=" pb-0 pt-3 center">
+                        <jw-pagination [items]="movies" (changePage)="onChangePage($event)">
+                        </jw-pagination>
+                    </div>
+                </div>
+                <div class="col">
+                </div>
+            </div>
+        </div>
+        <div class="col">
         </div>
     </div>
 </div>
