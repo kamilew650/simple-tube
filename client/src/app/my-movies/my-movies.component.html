@@ -9,10 +9,10 @@
                     <div class="add-button-div">
                         <button class="btn btn-primary" (click)="openAddModal(content)">Dodaj film</button>
                     </div>
-                    <div *ngIf="!movies">
+                    <div *ngIf="!movies || movies && movies.length === 0">
                         <h3>Brak filmów</h3>
                     </div>
-                    <div *ngIf="movies" class="table-responsive-md">
+                    <div *ngIf="movies && movies.length !== 0" class="table-responsive-md">
                         <table id="dtBasicExample" class="table table-striped table-bordered">
                             <thead>
                                 <tr>

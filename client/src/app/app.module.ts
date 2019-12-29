@@ -22,6 +22,7 @@ import { UserService } from './services/user.service';
 import { MoviesComponent } from './movies/movies.component';
 import { CommentService } from './services/comment.service';
 import { JwPaginationComponent } from 'jw-angular-pagination';
+import { ResultsComponent } from './results/results.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { JwPaginationComponent } from 'jw-angular-pagination';
     UsersComponent,
     MoviesComponent,
     JwPaginationComponent,
+    ResultsComponent,
   ],
   imports: [
     BrowserModule,

@@ -9,6 +9,7 @@ import { MyMoviesComponent } from './my-movies/my-movies.component';
 import { PlayerComponent } from './player/player.component';
 import { UsersComponent } from './users/users.component';
 import { MoviesComponent } from './movies/movies.component';
+import { ResultsComponent } from './results/results.component';
 
 export const routes: Routes = [
   {
@@ -38,6 +39,10 @@ export const routes: Routes = [
   {
     path: 'movies',
     component: MoviesComponent
+  },
+  {
+    path: 'results',
+    component: ResultsComponent
   },
 ];
 

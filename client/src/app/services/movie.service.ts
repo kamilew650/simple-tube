@@ -47,6 +47,12 @@ export class MovieService {
             .toPromise()
     }
 
+    findByWord(word: string) {
+        return this.http
+            .get(`${url}/movie/find/${word}`, { headers: this.getAuthHeader() })
+            .toPromise()
+    }
+
     getOne(id: string) {
         return this.http
             .get(`${url}/movie/${id}`, { headers: this.getAuthHeader() })

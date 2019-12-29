@@ -1,0 +1,51 @@
+<div class="container player-background">
+    <div class="row">
+        <div class="col">
+        </div>
+        <div class="col-8">
+            <br />
+            <h3>Wyniki dla frazy "{{searchString}}":</h3>
+            <br />
+            <div style="text-align: center;" *ngIf="!movies || movies && movies.length === 0">
+                <h3>Brak filmów</h3>
+            </div>
+            <div *ngIf="movies && movies.length !== 0" class="list-group">
+                <a *ngFor="let movie of pageOfItems" routerLink="/player/{{movie._id}}"
+                    class="list-group-item list-group-item-action">
+                    <div class="row">
+                        <div class="col-3">{{movie.title}}</div>
+                        <div class="col-3">Autor: {{movie.user.firstName}}</div>
+                        <div class="col-4">Dodane: {{movie.uploadDate.substring(0,10)}}</div>
+                        <div class="col">
+                            <fa-icon [icon]="faThumbsUp"></fa-icon>
+                            {{movie.likes}}:{{movie.likes}}
+                            <fa-icon [icon]="faThumbsDown"></fa-icon>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+        </div>
+        <div class="col-8">
+            <div *ngIf="movies" class="row">
+                <div class="col">
+                </div>
+                <div class="col">
+                    <div class=" pb-0 pt-3 center">
+                        <jw-pagination [items]="movies" (changePage)="onChangePage($event)">
+                        </jw-pagination>
+                    </div>
+                </div>
+                <div class="col">
+                </div>
+            </div>
+        </div>
+        <div class="col">
+        </div>
+    </div>
+</div>

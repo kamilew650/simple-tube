@@ -105,7 +105,7 @@ export class MyMoviesComponent implements OnInit {
     }).then(res => {
       this.clear()
       this.modalService.dismissAll()
-      this.movieService.getNew().then(res2 => {
+      this.movieService.getNewForUser(this.loginService.loggedUser._id).then(res2 => {
         this.movies = res2 as Movie[]
       })
     }).catch(err => {

@@ -3,6 +3,7 @@ import { AuthGuard } from '@nestjs/passport'
 import { MovieService } from './movie.service'
 import MovieInput from './dto/Movie.input'
 import { FileInterceptor } from '@nestjs/platform-express'
+import LikeInput from './dto/Like.input'
 
 @Controller('movie')
 export class MovieController {
@@ -23,6 +24,11 @@ export class MovieController {
 		return this.movieService.findNewForUser(userId)
 	}
 
+	@Get('/find/:word')
+	async findByWord(@Param('word') word: string) {
+		return this.movieService.findByWord(word)
+	}
+
 	@Get('/:id')
 	async findOne(@Param('id') id: string) {
 		return this.movieService.findOne(id)
@@ -34,6 +40,12 @@ export class MovieController {
 	async create(@Body('movieInput') movieInputString: string, @UploadedFile() file, @Request() req) {
 		const movieInput = JSON.parse(movieInputString) as MovieInput
 		return this.movieService.create(movieInput, file, req.user ? req.user._id : '')
+	}
+
+	@UseGuards(AuthGuard('jwt'))
+	@Post('/like')
+	async createLike(@Body('movieInput') likeInput: LikeInput, @Request() req) {
+		return this.movieService.createLike(likeInput, req.user ? req.user._id : '')
 	}
 
 	@UseGuards(AuthGuard('jwt'))

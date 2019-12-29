@@ -3,9 +3,10 @@ import { TypegooseModule } from 'nestjs-typegoose'
 import User from './entities/User'
 import Movie from './entities/Movie'
 import Comment from './entities/Comment'
+import Like from './entities/Like'
 
 @Module({
-	imports: [TypegooseModule.forFeature([User, Movie, Comment])],
-	exports: [TypegooseModule.forFeature([User, Movie, Comment])],
+	imports: [TypegooseModule.forFeature([User, Movie, Comment, Like])],
+	exports: [TypegooseModule.forFeature([User, Movie, Comment, Like])],
 })
-export class DbModule {}
+export class DbModule { }
