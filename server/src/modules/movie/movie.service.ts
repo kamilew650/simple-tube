@@ -72,8 +72,12 @@ export class MovieService {
 		})
 	}
 
-	async findOne(id: string) {
-		return this.movieModels.findById(id).populate('user')
+	async findOne(id: string, userId: string) {
+		const movie = await this.movieModels.findById(id).populate('user')
+
+		const like = await this.likeModels.findOne({ user: userId ? userId : '', movie: id })
+
+		return { movie, like }
 	}
 
 	async create(movieInput: MovieInput, file: any, userId: string) {
@@ -122,7 +126,7 @@ export class MovieService {
 			if (likeToUpdate.like === likeInput.like) {
 				await this.likeModels.findByIdAndRemove({ _id: likeToUpdate._id })
 			} else {
-				await this.likeModels.findByIdAndUpdate({ _id: likeToUpdate._id }, { $set: { like: likeToUpdate.like } })
+				await this.likeModels.findByIdAndUpdate({ _id: likeToUpdate._id }, { $set: { like: likeInput.like } })
 			}
 
 		} else {
@@ -144,12 +148,15 @@ export class MovieService {
 			await newLike.save()
 		}
 
-		const likes = await this.movieModels.count({ movie: likeInput.movieId, like: true })
-		const dislikes = await this.movieModels.count({ movie: likeInput.movieId, like: false })
+		const likes = await this.likeModels.count({ movie: likeInput.movieId, like: true })
 
-		const movie = await this.movieModels.findByIdAndUpdate({ _id: likeInput.movieId }, { $set: { likes, dislikes } })
+		const dislikes = await this.likeModels.count({ movie: likeInput.movieId, like: false })
 
-		return movie
+		const movie = await this.movieModels.findByIdAndUpdate({ _id: likeInput.movieId }, { $set: { likes, dislikes } }, { new: true })
+
+		const like = await this.likeModels.findOne({ user: userId, movie: likeInput.movieId })
+
+		return { movie, like }
 	}
 
 	async update(id: string, movieInput: MovieInput) {

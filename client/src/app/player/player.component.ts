@@ -21,6 +21,8 @@ export class PlayerComponent implements OnInit {
   faThumbsUp = faThumbsUp
   faThumbsDown = faThumbsDown
 
+  like: any = null
+
   items = [];
   pageOfItems: Array<any>;
 
@@ -61,14 +63,26 @@ export class PlayerComponent implements OnInit {
         this.router.navigateByUrl('/')
       }
 
-      this.movieService.getOne(this.movieId).then(res => {
-        this.movie = res as Movie
-        this.movieUrl = `https://simpletube.s3.eu-central-1.amazonaws.com/${this.movie.videoToken}`
-        this.commentService.get(this.movie._id).then(res => {
-          this.comments = res as Comment[]
-          console.log(this.comments)
+      if (this.isLoggedIn) {
+        this.movieService.getOneWithAuth(this.movieId).then((res: any) => {
+          this.movie = res.movie as Movie
+          this.like = res.like
+          this.movieUrl = `https://simpletube.s3.eu-central-1.amazonaws.com/${this.movie.videoToken}`
+          this.commentService.get(this.movie._id).then(comments => {
+            this.comments = comments as Comment[]
+            console.log(this.comments)
+          })
         })
-      })
+      } else {
+        this.movieService.getOne(this.movieId).then((res: any) => {
+          this.movie = res.movie as Movie
+          this.movieUrl = `https://simpletube.s3.eu-central-1.amazonaws.com/${this.movie.videoToken}`
+          this.commentService.get(this.movie._id).then(comments => {
+            this.comments = comments as Comment[]
+            console.log(this.comments)
+          })
+        })
+      }
     })
   }
 
@@ -84,6 +98,15 @@ export class PlayerComponent implements OnInit {
   closeModal(modal: any) {
     modal.close()
     this.clear()
+  }
+
+  addLike(like: boolean) {
+    this.movieService.like(like, this.movie._id).then((res: any) => {
+      console.log(res)
+      this.movie.likes = res.movie.likes
+      this.movie.dislikes = res.movie.dislikes
+      this.like = res.like
+    })
   }
 
   openAddModal(content) {

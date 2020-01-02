@@ -28,15 +28,17 @@
                     </div>
                     <div *ngIf="!isLoggedIn" class="col right">
                         <fa-icon [icon]="faThumbsUp"></fa-icon>
-                        {{movie.likes}}:{{movie.likes}}
+                        {{movie.likes}}:{{movie.dislikes}}
                         <fa-icon [icon]="faThumbsDown"></fa-icon>
                     </div>
                     <div *ngIf="isLoggedIn" class="col right">
-                        <button class="btn btn-secondary">
+                        <button (click)="addLike(true)" class="btn"
+                            [ngClass]="{'btn-primary': like && like.like === true, 'btn-secondary': !like || like && like.like === false}">
                             <fa-icon [icon]="faThumbsUp"></fa-icon>
                         </button>
-                        {{movie.likes}}:{{movie.likes}}
-                        <button class="btn btn-secondary">
+                        {{movie.likes}}:{{movie.dislikes}}
+                        <button (click)="addLike(false)" class="btn"
+                            [ngClass]="{'btn-primary': like && like.like === false, 'btn-secondary': !like || like && like.like === true}">
                             <fa-icon [icon]="faThumbsDown"></fa-icon>
                         </button>
                     </div>

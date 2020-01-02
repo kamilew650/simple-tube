@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsBooleanString } from 'class-validator'
+import { IsString, IsNotEmpty, IsBooleanString, IsBoolean } from 'class-validator'
 import Movie from '../../../db/entities/Movie'
 import Like from '../../../db/entities/Like'
 
@@ -9,7 +9,7 @@ export default class LikeInput {
     @IsNotEmpty()
     movieId: string
 
-    @IsBooleanString()
+    @IsBoolean()
     @IsNotEmpty()
     like: boolean
 

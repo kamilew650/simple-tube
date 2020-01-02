@@ -59,6 +59,18 @@ export class MovieService {
             .toPromise()
     }
 
+    getOneWithAuth(id: string) {
+        return this.http
+            .get(`${url}/movie/withAuth/${id}`, { headers: this.getAuthHeader() })
+            .toPromise()
+    }
+
+    like(like: boolean, movieId: string) {
+        return this.http
+            .post(`${url}/movie/like`, { likeInput: { like, movieId } }, { headers: this.getAuthHeader() })
+            .toPromise()
+    }
+
     add(movie: MovieForm) {
         const { file, ...movieInput } = movie
         console.log(file)

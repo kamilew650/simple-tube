@@ -29,23 +29,28 @@ export class MovieController {
 		return this.movieService.findByWord(word)
 	}
 
+	@UseGuards(AuthGuard('jwt'))
+	@Get('/withAuth/:id')
+	async findOneWithLike(@Param('id') id: string, @Request() req) {
+		return this.movieService.findOne(id, req.user ? req.user._id : '')
+	}
+
 	@Get('/:id')
-	async findOne(@Param('id') id: string) {
-		return this.movieService.findOne(id)
+	async findOne(@Param('id') id: string, @Request() req) {
+		return this.movieService.findOne(id, null)
 	}
 
 	@UseGuards(AuthGuard('jwt'))
 	@UseInterceptors(FileInterceptor('file'))
 	@Post('')
 	async create(@Body('movieInput') movieInputString: string, @UploadedFile() file, @Request() req) {
-		console.log("fajnie")
 		const movieInput = JSON.parse(movieInputString) as MovieInput
 		return this.movieService.create(movieInput, file, req.user ? req.user._id : '')
 	}
 
 	@UseGuards(AuthGuard('jwt'))
 	@Post('/like')
-	async createLike(@Body('movieInput') likeInput: LikeInput, @Request() req) {
+	async createLike(@Body('likeInput') likeInput: LikeInput, @Request() req) {
 		return this.movieService.createLike(likeInput, req.user ? req.user._id : '')
 	}
 
