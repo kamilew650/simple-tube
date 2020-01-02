@@ -23,6 +23,8 @@ import { MoviesComponent } from './movies/movies.component';
 import { CommentService } from './services/comment.service';
 import { JwPaginationComponent } from 'jw-angular-pagination';
 import { ResultsComponent } from './results/results.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -47,6 +49,8 @@ import { ResultsComponent } from './results/results.component';
     FormsModule,
     ReactiveFormsModule,
     FontAwesomeModule,
+    NgxSpinnerModule,
+    BrowserAnimationsModule,
   ],
   providers: [LoginService, CustomHttpService, CookieService, MovieService, UserService, CommentService],
   bootstrap: [AppComponent]

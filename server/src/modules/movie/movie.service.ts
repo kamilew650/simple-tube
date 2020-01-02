@@ -79,56 +79,75 @@ export class MovieService {
 	async create(movieInput: MovieInput, file: any, userId: string) {
 		const fileToken = uuid.v4()
 
-		const response = await this.cloudStorageService.upload(fileToken, file.buffer)
+		try {
+			const response = await this.cloudStorageService.upload(fileToken, file.buffer)
 
-		const movie = MovieInput.toEntity(movieInput)
+			if (!response) {
+				throw new InternalServerErrorException()
+			}
+			console.log(response)
 
-		const newMovie = new this.movieModels(movie)
-		newMovie.likes = 0
-		newMovie.dislikes = 0
-		newMovie.user = await this.userModels.findById(userId)
-		newMovie.uploadDate = new Date()
+			const movie = MovieInput.toEntity(movieInput)
 
-		if (!newMovie.user) {
-			throw new UnauthorizedException()
+			const newMovie = new this.movieModels(movie)
+			newMovie.likes = 0
+			newMovie.dislikes = 0
+			newMovie.user = await this.userModels.findById(userId)
+			newMovie.uploadDate = new Date()
+
+			if (!newMovie.user) {
+				throw new UnauthorizedException()
+			}
+
+			newMovie.videoToken = fileToken
+
+			await newMovie.save()
+
+			const { user, ...movieModel } = newMovie
+
+			newMovie.user = user._id as unknown as User
+
+			return newMovie
+		} catch (err) {
+			console.log(err)
 		}
-
-		newMovie.videoToken = fileToken
-
-		await newMovie.save()
-
-		const { user, ...movieModel } = newMovie
-
-		newMovie.user = user._id as unknown as User
-
-		return newMovie
 	}
 
 	async createLike(likeInput: LikeInput, userId: string) {
 
 		const likeToUpdate = await this.likeModels.findOne({ user: userId, movie: likeInput.movieId })
 
-		const like = new Like()
+		if (likeToUpdate) {
 
-		const newLike = new this.likeModels(like)
-		newLike.like = likeInput.like
-		newLike.user = await this.userModels.findById(userId)
-		newLike.movie = await this.movieModels.findById(likeInput.movieId)
+			if (likeToUpdate.like === likeInput.like) {
+				await this.likeModels.findByIdAndRemove({ _id: likeToUpdate._id })
+			} else {
+				await this.likeModels.findByIdAndUpdate({ _id: likeToUpdate._id }, { $set: { like: likeToUpdate.like } })
+			}
 
-		if (!newLike.user) {
-			throw new UnauthorizedException()
+		} else {
+			const like = new Like()
+
+			const newLike = new this.likeModels(like)
+			newLike.like = likeInput.like
+			newLike.user = await this.userModels.findById(userId)
+			newLike.movie = await this.movieModels.findById(likeInput.movieId)
+
+			if (!newLike.user) {
+				throw new UnauthorizedException()
+			}
+
+			if (!newLike.movie) {
+				throw new NotFoundException()
+			}
+
+			await newLike.save()
 		}
-
-		if (!newLike.movie) {
-			throw new NotFoundException()
-		}
-
-		await newLike.save()
 
 		const likes = await this.movieModels.count({ movie: likeInput.movieId, like: true })
 		const dislikes = await this.movieModels.count({ movie: likeInput.movieId, like: false })
 
-		const movie = await this.movieModels.findByIdAndUpdate({ _id: likeInput.movieId }, { $set: { likes: likes, dislikes: dislikes } })
+		const movie = await this.movieModels.findByIdAndUpdate({ _id: likeInput.movieId }, { $set: { likes, dislikes } })
 
 		return movie
 	}

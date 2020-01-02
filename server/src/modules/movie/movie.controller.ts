@@ -38,6 +38,7 @@ export class MovieController {
 	@UseInterceptors(FileInterceptor('file'))
 	@Post('')
 	async create(@Body('movieInput') movieInputString: string, @UploadedFile() file, @Request() req) {
+		console.log("fajnie")
 		const movieInput = JSON.parse(movieInputString) as MovieInput
 		return this.movieService.create(movieInput, file, req.user ? req.user._id : '')
 	}

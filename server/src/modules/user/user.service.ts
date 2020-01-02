@@ -33,7 +33,7 @@ export class UserService {
 	async login(loginInput: LoginInput) {
 		const user = await this.userModels.findOne({ email: loginInput.email })
 
-		if ((await argon2.verify(user.password, loginInput.password)) && user.isActive) {
+		if (user && (await argon2.verify(user.password, loginInput.password)) && user.isActive) {
 			const payload = { email: user.email, _id: user._id }
 			return {
 				access_token: this.jwtService.sign(payload),

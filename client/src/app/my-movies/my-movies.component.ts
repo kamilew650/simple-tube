@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { FormBuilder, FormControl, Validators, FormGroup } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
+
 import { LoginService } from '../services/login.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MovieService } from '../services/movie.service';
 import Movie from '../models/Movie';
 import { faCommentDots, faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-my-movies',
@@ -36,8 +38,8 @@ export class MyMoviesComponent implements OnInit {
     private modalService: NgbModal,
     private loginService: LoginService,
     private readonly router: Router,
-    private readonly route: ActivatedRoute,
     private readonly movieService: MovieService,
+    private spinner: NgxSpinnerService,
   ) { }
 
   ngOnInit() {
@@ -97,19 +99,23 @@ export class MyMoviesComponent implements OnInit {
     if (!this.file) {
       return
     }
-
+    this.spinner.show()
+    this.modalService.dismissAll()
     this.movieService.add({
       description: this.description,
       title: this.title,
       file: this.file,
     }).then(res => {
+      console.log(res)
       this.clear()
-      this.modalService.dismissAll()
+      this.spinner.hide()
       this.movieService.getNewForUser(this.loginService.loggedUser._id).then(res2 => {
         this.movies = res2 as Movie[]
       })
     }).catch(err => {
       console.log(err)
+      this.spinner.hide()
+      this.clear()
     })
   }
 
@@ -137,7 +143,7 @@ export class MyMoviesComponent implements OnInit {
   }
 
   deleteMovie(id: string) {
-    this.movieService.delete(id).then(res => {
+    this.movieService.delete(id).then(() => {
       this.movies = this.movies.filter(m => m._id.localeCompare(id) !== 0)
     })
   }
