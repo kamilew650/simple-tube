@@ -75,7 +75,8 @@ export class MovieService {
 	async findOne(id: string, userId: string) {
 		const movie = await this.movieModels.findById(id).populate('user')
 
-		const like = await this.likeModels.findOne({ user: userId ? userId : '', movie: id })
+
+		const like = userId ? (await this.likeModels.findOne({ user: userId ? userId : '', movie: id })) : null
 
 		return { movie, like }
 	}
