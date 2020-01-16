@@ -5,6 +5,7 @@ import { TypegooseModule } from 'nestjs-typegoose'
 import User from '../../db/entities/User'
 import { DbModule } from '../../db/db.module'
 import { JwtModule } from '@nestjs/jwt'
+import { ServiceModule } from '../../services/service.module'
 
 @Module({
 	imports: [
@@ -13,9 +14,10 @@ import { JwtModule } from '@nestjs/jwt'
 			secret: 'secretBardzo',
 			signOptions: { expiresIn: '60s' },
 		}),
+		ServiceModule,
 	],
 	providers: [UserService],
 	controllers: [UserController],
 	exports: [UserService],
 })
-export class UserModule {}
+export class UserModule { }

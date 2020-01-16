@@ -39,9 +39,9 @@ export class UserService {
             .toPromise()
     }
 
-    update(movie: Movie) {
+    activeAccount(activeToken: string) {
         return this.http
-            .put(`${url}/user`, movie, { headers: this.getAuthHeader() })
+            .post(`${url}/user/activeAccount`, { token: activeToken })
             .toPromise()
     }
 

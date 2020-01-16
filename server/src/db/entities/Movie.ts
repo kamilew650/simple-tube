@@ -23,8 +23,5 @@ export default class Movie extends Typegoose {
 	videoToken: string
 
 	@prop()
-	pictureUrl: string
-
-	@prop()
 	uploadDate: Date
 }

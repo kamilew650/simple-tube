@@ -8,24 +8,28 @@ import LoginInput from './dto/Login.input'
 import { ModelType } from 'typegoose'
 import User from '../../db/entities/User'
 import { UserRole } from '../../shared/RoleEnum'
+import { MailService } from '../../services/mail.service'
 
 @Injectable()
 export class UserService {
 	constructor(
 		@InjectModel(User) private readonly userModels: ModelType<User>, //
 		private readonly jwtService: JwtService,
+		private readonly mailService: MailService,
 	) { }
 
 	async registration(userInput: UserInput) {
 		const userEntity = UserInput.toEntity(userInput)
 		userEntity.activeToken = crypto.randomBytes(48).toString('hex')
 		userEntity.password = await argon2.hash(userInput.password)
-		userEntity.isActive = true
+		userEntity.isActive = false
 		userEntity.role = UserRole.User
 
 		const newUser = new this.userModels(userEntity)
 
 		await newUser.save()
+
+		this.mailService.sendMail(newUser.email, 'Activate account', `To activate your email enter this link: ${process.env.WEBSITE_URL}?activeToken=${newUser.activeToken}`)
 
 		return true
 	}

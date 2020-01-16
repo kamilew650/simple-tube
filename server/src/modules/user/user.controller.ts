@@ -34,12 +34,6 @@ export class UserController {
 		return this.userService.findOne(id)
 	}
 
-	// @UseGuards(AuthGuard('jwt'))
-	// @Put('/:id')
-	// async update(@Param('id') id: string, @Body('commentInput') commentInput: CommentInput) {
-	// 	return this.userService.update(id, commentInput)
-	// }
-
 	@UseGuards(AuthGuard('jwt'))
 	@Delete('/:id')
 	@HttpCode(204)

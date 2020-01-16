@@ -30,13 +30,8 @@ export class ResultsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    // this.movieService.getNew().then(res => {
-    //   this.movies = res as Movie[]
-    // })
-
     this.route.queryParams.subscribe(params => {
       this.searchString = params.search;
-      console.log(this.searchString)
       this.movieService.findByWord(this.searchString).then(res => {
         this.movies = res as Movie[]
       })

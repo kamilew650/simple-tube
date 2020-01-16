@@ -93,6 +93,7 @@ export class PlayerComponent implements OnInit {
   clear() {
     this.comment = null
     this.content = null
+    this.contentText = null
   }
 
   closeModal(modal: any) {
@@ -151,8 +152,17 @@ export class PlayerComponent implements OnInit {
     this.commentService.update(commentToEdit).then(res => {
       const updatedComment = res as Comment
       this.clear()
-      this.comments = this.comments.map(c => c._id.localeCompare(updatedComment._id) === 0 ? updatedComment : c)
+      commentToEdit.content = null
+      this.comments = this.comments.map(c => {
+        if (c._id.localeCompare(updatedComment._id) === 0) {
+          c.content = updatedComment.content
+          return c
+        } else {
+          return c
+        }
+      })
       this.modalService.dismissAll()
+      console.log(this.contentText)
     }).catch(err => {
       console.log(err)
     })

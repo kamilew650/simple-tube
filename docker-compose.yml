@@ -32,6 +32,7 @@ services:
       - MONGO_DATABASE_NAME=smart_reach_tech
       - AWSID=${AWSID}
       - AWSSECRET=${AWSSECRET}
+      - SENDGRID=${SENDGRID}
       - BUCKETNAME=simpletube
   mongodb:
     build: ./mongodb

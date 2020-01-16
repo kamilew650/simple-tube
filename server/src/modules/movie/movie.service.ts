@@ -175,7 +175,7 @@ export class MovieService {
 			const movie = await this.movieModels.findById(id).populate('user')
 			const userFromMovie = movie.user as User
 
-			if (user.role !== 0 && userFromMovie._id.localeCompare(userId) !== 0) {
+			if (user.role !== 0 && userFromMovie._id.toString().localeCompare(userId) !== 0) {
 				throw new UnauthorizedException()
 			}
 
